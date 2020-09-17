@@ -1,0 +1,19 @@
+{
+  "name": "patriochatserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guyb25/PatrioChatServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guyb25/PatrioChatServer/issues"
+  },
+  "homepage": "https://github.com/guyb25/PatrioChatServer#readme"
+}
