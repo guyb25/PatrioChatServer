@@ -19,24 +19,31 @@ class Server {
         let sockets = [];
 
         this.server.on('connection', (socket) => {
-            console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
-            sockets.push(socket);
-
-            socket.on('data', (data) => {
-                console.log('DATA ' + socket.remoteAddress + ': ' + data);
-                this.messagesHandler.handle(socket, data);
-            });
-
-            socket.on('close', (data) => {
-                let index = sockets.findIndex((client) => {
-                    return client.remoteAddress === socket.remoteAddress && client.remotePort === socket.remotePort;
+            try {
+                console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+                sockets.push(socket);
+    
+                socket.on('data', (data) => {
+                    console.log('DATA ' + socket.remoteAddress + ': ' + data);
+                    this.messagesHandler.handle(socket, data);
                 });
+    
+                socket.on('close', (data) => {
+                    let index = sockets.findIndex((client) => {
+                        return client.remoteAddress === socket.remoteAddress && client.remotePort === socket.remotePort;
+                    });
+    
+                    if (index !== -1) {
+                        sockets.splice(index, 1);
+                        console.log('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
+                    }
+                });
+            }
 
-                if (index !== -1) {
-                    sockets.splice(index, 1);
-                    console.log('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
-                }
-            });
+            catch (exception) {
+                console.log("socket threw an exception which couldn't be handled. Exception: ");
+                console.log(exception);
+            }
         });
     }
 }

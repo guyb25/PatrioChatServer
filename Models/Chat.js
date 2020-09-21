@@ -13,3 +13,5 @@ class Chat {
         this.messages.push(message);
     }
 }
+
+module.exports = Chat;

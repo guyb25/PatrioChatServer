@@ -4,5 +4,6 @@ module.exports = {
     Login: 2,
     Logout: 3,
     SendMessage: 4,
-    RequestChat: 5
+    NewChat: 5,
+    ReceiveMessage: 6
 }

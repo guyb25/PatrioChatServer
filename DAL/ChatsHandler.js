@@ -6,10 +6,10 @@ class ChatsHandler {
     }    
 
     // Attempt to add a chat. Returns wether attempt was successful.
-    TryAddChat(chatName) {
+    TryAddChat(chat) {
         let id = uuid.v4();
-        this.chats.set(id, chatName);
-        return this.chats.has(id) && this.chats.get(id) == chatName;
+        this.chats.set(id, chat);
+        return this.chats.has(id);
     }
 }
 

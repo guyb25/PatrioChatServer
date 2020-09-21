@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+const Chat = require('../Models/Chat');
 
 class ActionsHandler {
     constructor(usersHandler, chatsHandler, onlineUsersHandler) {
@@ -10,18 +11,34 @@ class ActionsHandler {
     Register(info) {
         let username = info.Username;
         let successfullAddUser = this.usersHandler.TryAddUser(username);
-        let successfullCreateChat = this.chatsHandler.TryAddChat(username);
-        return successfullAddUser && successfullCreateChat;
+
+        if (successfullAddUser) {
+            this.InitPrivateChats(username);
+        }
+
+        return successfullAddUser;
     }
 
     Login(info) {
         let username = info.Username;
-        return this.onlineUsersHandler.TryAddUser(username);
+        return this.usersHandler.IsUserRegistered(username) && this.onlineUsersHandler.TryAddUser(username);
     }
 
     Logout(info) {
         let username = info.Username;
         return this.onlineUsersHandler.TryRemoveUser(username);
+    }
+
+    InitPrivateChats(newUser) {
+        let users = this.usersHandler.users;
+        for (const user in users) {
+            if (user != newUser) {
+                let chat = new Chat('Private chat - ' + user + ' & ' + newUser);
+                chat.addUser(user);
+                chat.addUser(newUser);
+                this.chatsHandler.TryAddChat(chat);
+            }
+        }
     }
 }
 
