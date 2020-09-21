@@ -13,3 +13,5 @@ class UsersHandler {
         return false;
     }
 }
+
+module.exports = UsersHandler;

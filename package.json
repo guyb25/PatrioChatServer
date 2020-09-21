@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/guyb25/PatrioChatServer/issues"
   },
-  "homepage": "https://github.com/guyb25/PatrioChatServer#readme"
+  "homepage": "https://github.com/guyb25/PatrioChatServer#readme",
+  "dependencies": {
+    "uuid": "^8.3.0"
+  }
 }
