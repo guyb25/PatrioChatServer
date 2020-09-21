@@ -22,6 +22,7 @@ class MessagesHandler {
         this.actions = new Map();
         this.actions.set(packetTypes.Register, (value) => this.actionsHandler.Register(value));
         this.actions.set(packetTypes.Login, (value) => this.actionsHandler.Login(value));
+        this.actions.set(packetTypes.Logout, (value) => this.actionsHandler.Logout(value));
     }
 }
 

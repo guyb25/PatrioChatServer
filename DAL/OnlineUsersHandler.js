@@ -17,8 +17,8 @@ class OnlineUsersHandler {
     // Attempt to remove a user. Returns wether attempt was successful.
     TryRemoveUser(username) {
         if (this.users.includes(username)) {
-            let indexOfUser = this.users.findIndex(username);
-            this.users.splice(indexOfUser, 1);
+            let userIndex = this.users.indexOf(username);
+            this.users.splice(userIndex, 1);
             return !this.users.includes(username);
         }
 
