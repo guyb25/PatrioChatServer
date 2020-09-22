@@ -3,7 +3,7 @@ module.exports = {
     Register: 1,
     Login: 2,
     Logout: 3,
-    SendMessage: 4,
+    NewMessage: 4,
     NewChat: 5,
-    ReceiveMessage: 6
+    RequestChats: 6
 }

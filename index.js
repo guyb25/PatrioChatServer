@@ -1,17 +1,18 @@
 const ActionsHandler = require('./Server/ActionsHandler');
 const JsonConverter = require('./Server/JsonConverter');
 const UsersHandler = require('./DAL/UsersHandler');
-const OnlineUsersHandler = require('./DAL/OnlineUsersHandler');
+const OnlineUsersPool = require('./Server/OnlineUsersPool');
 const ChatsHandler = require('./DAL/ChatsHandler');
-const MessagesHandler = require('./Server/MessagesHandler');
+const RequestsRouter = require('./Server/RequestsRouter');
 const Server = require('./Server/Server');
 
 let converter = new JsonConverter();
 let usersHandler = new UsersHandler();
-let onlineUsersHandler = new OnlineUsersHandler();
+let onlineUsersPool = new OnlineUsersPool();
 let chatsHandler = new ChatsHandler();
-let actionsHandler = new ActionsHandler(usersHandler, chatsHandler, onlineUsersHandler);
-let messagesHandler = new MessagesHandler(actionsHandler, converter);
-let server = new Server(messagesHandler);
+let actionsHandler = new ActionsHandler(usersHandler, chatsHandler, onlineUsersPool, converter);
+let requestsRouter = new RequestsRouter(actionsHandler, converter);
+let server = new Server(requestsRouter);
+
 server.listen();
 server.handleMessages();

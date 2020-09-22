@@ -5,11 +5,14 @@ class ChatsHandler {
         this.chats = new Map(); // <chatId, chat>
     }    
 
-    // Attempt to add a chat. Returns wether attempt was successful.
-    TryAddChat(chat) {
+    AddChat(chat) {
         let id = uuid.v4();
         this.chats.set(id, chat);
-        return this.chats.has(id);
+        return id;
+    }
+
+    GetChat(chatId) {
+        return this.chats.get(chatId);
     }
 }
 
