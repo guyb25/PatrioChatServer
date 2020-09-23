@@ -1,0 +1,13 @@
+09:54:34.210 INFO  guy has registered. 
+09:54:34.958 INFO  guy has logged in. 
+09:54:35.014 INFO  guy has requested his chat history. 
+09:54:43.180 INFO  guy2 has registered. 
+09:54:43.719 INFO  guy2 has logged in. 
+09:54:43.757 INFO  guy2 has requested his chat history. 
+09:54:46.709 INFO  guy2 has sent a new message to room 6b1ba0dc-c2b1-45f8-aa2f-0a6c8f84a90a. 
+09:54:49.908 INFO  guy2 has logged out. 
+09:54:50.974 INFO  guy has logged out. 
+09:55:16.411 INFO  guy has logged in. 
+09:55:16.500 INFO  guy has requested his chat history. 
+09:55:21.733 INFO  guy has sent a new message to room 6b1ba0dc-c2b1-45f8-aa2f-0a6c8f84a90a. 
+09:55:26.646 INFO  guy has logged out. 
