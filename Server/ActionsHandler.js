@@ -81,15 +81,12 @@ class ActionsHandler {
 
         try {
             this.SendPacketToOnlineUsers(packet, usersInRoom);
-            return true;
         }
 
         catch (exception) {
             this.logger.error("Exception thrown when trying to send a message to room " + targetRoomId);
             this.logger.error(exception);
-        }
-
-        return false;
+        }        
     }
 
     RequestChats(info, socket) {
