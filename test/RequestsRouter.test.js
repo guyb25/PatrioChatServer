@@ -1,62 +1,68 @@
-const assert = require('assert');
 let sinon = require('sinon');
 const Packet = require('../Models/Packet');
 const ActionsHandler = require('../Server/ActionsHandler');
 const JsonConverter = require('../Server/JsonConverter');
 const RequestsRouter = require('../Server/RequestsRouter');
-const SocketStub = require('./stubs/SocketStub');
 const packetTypes = require('../Server/static/PacketTypes');
 
 let actionsHandler = new ActionsHandler();
+let actionsHandlerMock = sinon.mock(actionsHandler);
+
 let serializer = new JsonConverter();
+
 let router = new RequestsRouter(actionsHandler, serializer);
-let socketStub = new SocketStub();
+let socketStub = null;
 let fakeData = 'fake data';
 
 describe('RequestsRouterTests', () => {
     it('test route to register', () => {        
         let data = GenerateFakeData(packetTypes.Register);
-        actionsHandler.Register = sinon.spy(actionsHandler, 'Register').withArgs(fakeData, socketStub);
+        actionsHandlerMock.expects('Register').withArgs(fakeData, socketStub);
         
         router.route(socketStub, data);
 
-        sinon.verifyAndRestore();
+        actionsHandlerMock.restore();
+        actionsHandlerMock.verify();
     });
 
     it('test route to login', () => {        
         let data = GenerateFakeData(packetTypes.Login);
-        actionsHandler.Login = sinon.spy(actionsHandler, 'Login').withArgs(fakeData, socketStub);
+        actionsHandlerMock.expects('Login').withArgs(fakeData, socketStub);
         
         router.route(socketStub, data);
 
-        sinon.verifyAndRestore();
+        actionsHandlerMock.restore();
+        actionsHandlerMock.verify();
     });
 
     it('test route to requestChats', () => {        
         let data = GenerateFakeData(packetTypes.RequestChats);
-        actionsHandler.RequestChats = sinon.spy(actionsHandler, 'RequestChats').withArgs(fakeData, socketStub);
+        actionsHandlerMock.expects('RequestChats').withArgs(fakeData, socketStub);
         
         router.route(socketStub, data);
 
-        sinon.verifyAndRestore();
+        actionsHandlerMock.restore();
+        actionsHandlerMock.verify();
     });
 
     it('test route to logout', () => {        
         let data = GenerateFakeData(packetTypes.Logout);
-        actionsHandler.Logout = sinon.spy(actionsHandler, 'Logout').withArgs(fakeData, socketStub);
+        actionsHandlerMock.expects('Logout').withArgs(fakeData);
         
         router.route(socketStub, data);
 
-        sinon.verifyAndRestore();
+        actionsHandlerMock.restore();
+        actionsHandlerMock.verify();
     });
 
     it('test route to new message', () => {        
         let data = GenerateFakeData(packetTypes.NewMessage);
-        actionsHandler.NewMessage = sinon.spy(actionsHandler, 'NewMessage').withArgs(fakeData, socketStub);
+        actionsHandlerMock.expects('NewMessage').withArgs(fakeData);
         
         router.route(socketStub, data);
 
-        sinon.verifyAndRestore();
+        actionsHandlerMock.restore();
+        actionsHandlerMock.verify();
     });
 });
 
