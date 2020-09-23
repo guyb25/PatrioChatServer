@@ -2,7 +2,7 @@ const assert = require('assert');
 const OnlineUsersPool = require('../Server/OnlineUsersPool');
 const SocketStub = require('./stubs/SocketStub');
 
-describe('UsersHandlerTests', () => {
+describe('OnlineUsersPoolTests', () => {
     it('test add new user', () => {
         let onlineUsersPool = new OnlineUsersPool();
         let socket = new SocketStub();
