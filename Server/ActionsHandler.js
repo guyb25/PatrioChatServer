@@ -14,32 +14,32 @@ class ActionsHandler {
 
     Register(info, socket) {
         let username = info.Username;
-        let successfullAddUser = this.usersHandler.TryAddUser(username);
+        let successfulAddUser = this.usersHandler.TryAddUser(username);
 
-        if (successfullAddUser) {
+        if (successfulAddUser) {
             this.InitPrivateChats(username);
             this.logger.info(username + ' has registered.');
         }
 
-        this.SendPacket(new Packet(packetTypes.ServerResponse, successfullAddUser), socket);
+        this.SendPacket(new Packet(packetTypes.ServerResponse, successfulAddUser), socket);
     }
 
     Login(info, socket) {
         let username = info.Username;
-        let successfullLogin = this.usersHandler.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
+        let successfulLogin = this.usersHandler.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
 
-        if (successfullLogin) {
+        if (successfulLogin) {
             this.logger.info(username + ' has logged in.');
         }
 
-        this.SendPacket(new Packet(packetTypes.ServerResponse, successfullLogin), socket);
+        this.SendPacket(new Packet(packetTypes.ServerResponse, successfulLogin), socket);
     }
 
     Logout(info) {
         let username = info.Username;
-        let successfullLogout = this.onlineUsersPool.TryRemoveUser(username);
+        let successfulLogout = this.onlineUsersPool.TryRemoveUser(username);
 
-        if (successfullLogout) {
+        if (successfulLogout) {
             this.logger.info(username + ' has logged out.');
         }
 
