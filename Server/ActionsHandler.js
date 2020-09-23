@@ -4,11 +4,11 @@ const Chat = require('../Models/Chat');
 const Packet = require('../Models/Packet');
 
 class ActionsHandler {
-    constructor(usersHandler, chatsHandler, onlineUsersPool, serializer, logger) {
+    constructor(usersHandler, chatsHandler, onlineUsersPool, packetSender, logger) {
         this.usersHandler = usersHandler;
         this.chatsHandler = chatsHandler;
         this.onlineUsersPool = onlineUsersPool;
-        this.serializer = serializer;
+        this.packetSender = packetSender;
         this.logger = logger;
     }
 
@@ -21,7 +21,7 @@ class ActionsHandler {
             this.logger.info(username + ' has registered.');
         }
 
-        this.SendPacket(new Packet(packetTypes.ServerResponse, successfulAddUser), socket);
+        this.packetSender.Send(new Packet(packetTypes.ServerResponse, successfulAddUser), socket);
     }
 
     Login(info, socket) {
@@ -32,7 +32,7 @@ class ActionsHandler {
             this.logger.info(username + ' has logged in.');
         }
 
-        this.SendPacket(new Packet(packetTypes.ServerResponse, successfulLogin), socket);
+        this.packetSender.Send(new Packet(packetTypes.ServerResponse, successfulLogin), socket);
     }
 
     Logout(info) {
@@ -101,7 +101,7 @@ class ActionsHandler {
         chatsIds.forEach((chatId) => {
             let chat = this.chatsHandler.GetChat(chatId);
             let packet = new Packet(packetTypes.NewChat, { ...chat, chatId });
-            this.SendPacket(packet, socket);
+            this.packetSender.Send(packet, socket);
         });
     }
 
@@ -109,16 +109,9 @@ class ActionsHandler {
         users.forEach((user) => {
             if (this.onlineUsersPool.IsUserOnline(user)) {
                 let userSocket = this.onlineUsersPool.GetUserSocket(user);
-                this.SendPacket(packet, userSocket);
+                this.packetSender.Send(packet, userSocket);
             }
         });
-    }
-
-    SendPacket(packet, socket) {
-        let serializedPacket = this.serializer.serialize(packet);
-        let lengthString = serializedPacket.length.toString().padStart(protcolConfigs.PacketLengthSize, protcolConfigs.PacketLengthPadCharacter);
-        socket.write(lengthString);
-        socket.write(serializedPacket);
     }
 }
 
