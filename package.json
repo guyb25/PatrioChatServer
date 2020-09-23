@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/guyb25/PatrioChatServer#readme",
   "dependencies": {
+    "simple-node-logger": "^18.12.24",
     "uuid": "^8.3.0"
   }
 }

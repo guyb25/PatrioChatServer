@@ -1,15 +1,17 @@
-const configurations = require('./static/ServerConfigs');
 const net = require('net');
 
 class Server {
-    constructor(requestsRouter) {
+    constructor(host, port, requestsRouter, logger) {
+        this.host = host;
+        this.port = port;
         this.requestsRouter = requestsRouter;
+        this.logger = logger;
         this.server = net.createServer();
     }
 
     listen() {
-        this.server.listen(configurations.port, configurations.host, () => {
-            console.log('PatrioChat Server is running on port ' + configurations.port + '.');
+        this.server.listen(this.port, this.host, () => {
+            this.logger.info('PatrioChat Server is running on port ' + this.port + '.');
         });        
     }
 
@@ -17,11 +19,11 @@ class Server {
         let sockets = [];
 
         this.server.on('connection', (socket) => {
-            console.log('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
+            this.logger.info('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
             sockets.push(socket);
 
             socket.on('data', (data) => {
-                console.log('DATA ' + socket.remoteAddress + ': ' + data);
+                this.logger.info('DATA ' + socket.remoteAddress + ': ' + data);
                 this.requestsRouter.route(socket, data);
             });
 
@@ -32,13 +34,13 @@ class Server {
 
                 if (index !== -1) {
                     sockets.splice(index, 1);
-                    console.log('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
+                    this.logger.info('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
                 }
             });
 
             socket.on('error', (error) => {
-                console.log("socket threw an exception which couldn't be handled. Exception: ");
-                console.log(error);
+                this.logger.error("socket threw an exception which couldn't be handled. Exception: ");
+                this.logger.error(error);
             });
         });
     }

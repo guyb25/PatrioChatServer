@@ -4,11 +4,12 @@ const Chat = require('../Models/Chat');
 const Packet = require('../Models/Packet');
 
 class ActionsHandler {
-    constructor(usersHandler, chatsHandler, onlineUsersPool, serializer) {
+    constructor(usersHandler, chatsHandler, onlineUsersPool, serializer, logger) {
         this.usersHandler = usersHandler;
         this.chatsHandler = chatsHandler;
         this.onlineUsersPool = onlineUsersPool;
         this.serializer = serializer;
+        this.logger = logger;
     }
 
     Register(info, socket) {
@@ -17,6 +18,7 @@ class ActionsHandler {
 
         if (successfullAddUser) {
             this.InitPrivateChats(username);
+            this.logger.info(username + ' has registered.');
         }
 
         this.SendPacket(new Packet(packetTypes.ServerResponse, successfullAddUser), socket);
@@ -25,12 +27,25 @@ class ActionsHandler {
     Login(info, socket) {
         let username = info.Username;
         let successfullLogin = this.usersHandler.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
+
+        if (successfullLogin) {
+            this.logger.info(username + ' has logged in.');
+        }
+
         this.SendPacket(new Packet(packetTypes.ServerResponse, successfullLogin), socket);
     }
 
     Logout(info) {
         let username = info.Username;
-        this.onlineUsersPool.TryRemoveUser(username);
+        let successfullLogout = this.onlineUsersPool.TryRemoveUser(username);
+
+        if (successfullLogout) {
+            this.logger.info(username + ' has logged out.');
+        }
+
+        else {
+            this.logger.warn(username + ' has tried to log out, but the system failed to do so.');
+        }
     }
 
     InitPrivateChats(newUser) {
@@ -54,6 +69,8 @@ class ActionsHandler {
     NewMessage(message) {
         let targetRoomId = message.TargetRoomId;
 
+        this.logger.info(message.Sender + ' has sent a new message to room ' + targetRoomId + '.');
+
         // Add message to DB
         let chatRoom = this.chatsHandler.GetChat(targetRoomId);
         chatRoom.addMessage(message);
@@ -68,8 +85,8 @@ class ActionsHandler {
         }
 
         catch (exception) {
-            console.log("Exception thrown when trying to send a message to room " + targetRoomId);
-            console.log(exception);
+            this.logger.error("Exception thrown when trying to send a message to room " + targetRoomId);
+            this.logger.error(exception);
         }
 
         return false;
@@ -79,9 +96,10 @@ class ActionsHandler {
         let username = info.Username;
         let chatsIds = this.usersHandler.GetUserChats(username);
 
+        this.logger.info(username + ' has requested his chat history.');
+
         chatsIds.forEach((chatId) => {
             let chat = this.chatsHandler.GetChat(chatId);
-            console.log("sent user " + username + " packet about joining " + chat.chatName);
             let packet = new Packet(packetTypes.NewChat, { ...chat, chatId });
             this.SendPacket(packet, socket);
         });

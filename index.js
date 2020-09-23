@@ -5,14 +5,19 @@ const OnlineUsersPool = require('./Server/OnlineUsersPool');
 const ChatsHandler = require('./DAL/ChatsHandler');
 const RequestsRouter = require('./Server/RequestsRouter');
 const Server = require('./Server/Server');
+const SimpleNodeLogger = require('simple-node-logger');
+const serverConfigs = require('./Server/static/ServerConfigs');
+
+const actionsLog = SimpleNodeLogger.createSimpleFileLogger(serverConfigs.logFileName);
+const serverLog = SimpleNodeLogger.createSimpleLogger();
 
 let converter = new JsonConverter();
 let usersHandler = new UsersHandler();
 let onlineUsersPool = new OnlineUsersPool();
 let chatsHandler = new ChatsHandler();
-let actionsHandler = new ActionsHandler(usersHandler, chatsHandler, onlineUsersPool, converter);
+let actionsHandler = new ActionsHandler(usersHandler, chatsHandler, onlineUsersPool, converter, actionsLog);
 let requestsRouter = new RequestsRouter(actionsHandler, converter);
-let server = new Server(requestsRouter);
+let server = new Server(serverConfigs.host, serverConfigs.port, requestsRouter, serverLog);
 
 server.listen();
 server.handleMessages();
