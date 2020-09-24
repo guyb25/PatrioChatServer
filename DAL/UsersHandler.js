@@ -4,6 +4,10 @@ class UsersHandler {
         this.usersChats = new Map(); //<username, set<chatIds>>
     }
 
+    GetAllUsers() {
+        return this.users;
+    }
+    
     // Attempt to add a user. Returns wether attempt was successful.
     TryAddUser(username) {
         if (!this.IsUserRegistered(username)) {

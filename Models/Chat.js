@@ -4,7 +4,7 @@ class Chat {
         this.messages = [];
     }
 
-    addMessage(message) {
+    AddMessage(message) {
         this.messages.push(message);
     }
 }

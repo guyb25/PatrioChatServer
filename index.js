@@ -7,7 +7,9 @@ const RequestsRouter = require('./Server/RequestsRouter');
 const Server = require('./Server/Server');
 const SimpleNodeLogger = require('simple-node-logger');
 const PacketSender = require('./Server/PacketSender');
+
 const serverConfigs = require('./Server/static/ServerConfigs');
+const protocolConfigs = require('./Server/static/ProtocolConfigs');
 
 const actionsLog = SimpleNodeLogger.createSimpleFileLogger(serverConfigs.logFileName);
 const serverLog = SimpleNodeLogger.createSimpleLogger();
@@ -16,7 +18,7 @@ let converter = new JsonConverter();
 let usersHandler = new UsersHandler();
 let onlineUsersPool = new OnlineUsersPool();
 let chatsHandler = new ChatsHandler();
-let packetSender = new PacketSender();
+let packetSender = new PacketSender(converter, protocolConfigs.PacketLengthSize, protocolConfigs.PacketLengthPadCharacter);
 let actionsHandler = new ActionsHandler(usersHandler, chatsHandler, onlineUsersPool, packetSender, actionsLog);
 let requestsRouter = new RequestsRouter(actionsHandler, converter);
 let server = new Server(serverConfigs.host, serverConfigs.port, requestsRouter, serverLog);

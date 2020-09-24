@@ -49,7 +49,7 @@ class ActionsHandler {
     }
 
     InitPrivateChats(newUser) {
-        let users = this.usersHandler.users;
+        let users = this.usersHandler.GetAllUsers();
         users.forEach((user) => {
             if (user != newUser) {
                 // Add chat room to db
@@ -72,8 +72,7 @@ class ActionsHandler {
         this.logger.info(message.Sender + ' has sent a new message to room ' + targetRoomId + '.');
 
         // Add message to DB
-        let chatRoom = this.chatsHandler.GetChat(targetRoomId);
-        chatRoom.addMessage(message);
+        this.chatsHandler.AddMessageToChat(targetRoomId, message);
 
         // Send message to online users in the room
         let packet = new Packet(packetTypes.NewMessage, message);

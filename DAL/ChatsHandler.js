@@ -14,6 +14,11 @@ class ChatsHandler {
     GetChat(chatId) {
         return this.chats.get(chatId);
     }
+
+    AddMessageToChat(chatId, message) {
+        let chatRoom = this.GetChat(chatId);
+        chatRoom.AddMessage(message);
+    }
 }
 
 module.exports = ChatsHandler;
