@@ -255,3 +255,23 @@
 16:35:34.441 INFO  guy2 has logged out. 
 16:35:35.411 INFO  lolz has logged out. 
 16:35:36.224 INFO  guy has logged out. 
+16:53:57.955 INFO  guy has registered. 
+16:53:58.913 INFO  guy has logged in. 
+16:53:58.954 INFO  guy has requested his chat history. 
+16:54:07.593 INFO  Chat guy & guy2 has been created with id 12d8bdeb-fcb6-4cb2-af09-d9d4bba9c7b1 
+16:54:07.594 INFO  guy2 has registered. 
+16:54:11.140 INFO  guy has sent a new message to room 12d8bdeb-fcb6-4cb2-af09-d9d4bba9c7b1. 
+16:54:12.058 INFO  guy2 has logged in. 
+16:54:12.107 INFO  guy2 has requested his chat history. 
+16:54:16.098 INFO  guy2 has sent a new message to room 12d8bdeb-fcb6-4cb2-af09-d9d4bba9c7b1. 
+16:54:23.282 INFO  Chat guy & guy3 has been created with id 515a92ca-ae58-4ab8-8aaa-2790d194a824 
+16:54:23.283 INFO  Chat guy2 & guy3 has been created with id 3fde8e8f-1a64-4415-805b-51ef75b1bdd6 
+16:54:23.283 INFO  guy3 has registered. 
+16:54:23.921 INFO  guy3 has logged in. 
+16:54:23.970 INFO  guy3 has requested his chat history. 
+16:54:31.821 INFO  Chat team cyber has been created with id 8d5d25ad-1e92-4acc-a16a-611c7827f4ca 
+16:54:34.248 INFO  guy3 has sent a new message to room 8d5d25ad-1e92-4acc-a16a-611c7827f4ca. 
+16:54:40.183 INFO  guy has sent a new message to room 8d5d25ad-1e92-4acc-a16a-611c7827f4ca. 
+16:54:42.674 INFO  guy has logged out. 
+16:54:43.977 INFO  guy2 has logged out. 
+16:54:45.696 INFO  guy3 has logged out. 

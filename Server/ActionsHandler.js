@@ -98,14 +98,7 @@ class ActionsHandler {
         let usersInRoom = this.usersHandler.GetUsersInChat(targetRoomId);
         let onlineUsersInRoom = usersInRoom.filter(user => this.onlineUsersPool.IsUserOnline(user));
 
-        try {
-            this.SendToOnlineUsers(packet, onlineUsersInRoom);
-        }
-
-        catch (exception) {
-            this.logger.error("Exception thrown when trying to send a message to room " + targetRoomId);
-            this.logger.error(exception);
-        }        
+        this.SendToOnlineUsers(packet, onlineUsersInRoom); 
     }
 
     RequestChats(info, socket) {
@@ -132,8 +125,21 @@ class ActionsHandler {
 
     SendToOnlineUsers(packet, users) {
         let onlineUsers = users.filter(user => this.onlineUsersPool.IsUserOnline(user));
-        let onlineUsersSockets = onlineUsers.map(user => this.onlineUsersPool.GetUserSocket(user));
-        this.packetSender.SendMultiple(packet, onlineUsersSockets);
+
+        onlineUsers.forEach(user => {
+            try {
+                let socket = this.onlineUsersPool.GetUserSocket(user);
+                this.packetSender.Send(packet, socket);
+            }
+
+            catch(exception) {
+                this.logger.error('Exception thrown when trying to send a packet to ' + user + '.');
+                this.logger.error("Packet: ");
+                this.logger.error(packet);
+                this.logger.error("Exception: ");
+                this.logger.error(exception);
+            }
+        });
     }
 }
 
