@@ -13,11 +13,21 @@ describe('PacketSenderTests', () => {
         let packet = new Packet(packetTypes.ServerResponse, 'fake value');
         let socketStub = new SocketStub();
 
-        packetSender.Send(socketStub, packet);
+        packetSender.Send(packet, socketStub);
+        
         let packetLength = parseInt(socketStub.writeHistory[0]);
         let packetString = socketStub.writeHistory[1];
 
         assert.strictEqual(2, socketStub.writeHistory.length);
         assert.strictEqual(packetLength, packetString.length);
+    });
+
+    it('test create length string', () => {
+        let serializer = new JsonConverter();
+        let packetSender = new PacketSender(serializer, 6, '#');
+
+        let lengthString = packetSender.CreateLengthString(14);
+
+        assert.strictEqual('####14', lengthString);
     });
 });

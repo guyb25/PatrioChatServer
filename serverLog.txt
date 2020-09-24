@@ -66,3 +66,5 @@
 12:46:46.782 INFO  guy has logged in. 
 12:46:46.872 INFO  guy has requested his chat history. 
 12:47:05.785 INFO  guy has logged out. 
+12:01:01.847 INFO  guy has registered. 
+12:01:55.671 INFO  guy2 has registered. 

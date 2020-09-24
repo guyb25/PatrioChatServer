@@ -5,7 +5,7 @@ class PacketSender {
         this.packetLengthPadCharacter = packetLengthPadCharacter;
     }
 
-    Send(socket, packet) {
+    Send(packet, socket) {
         let serializedPacket = this.serializer.serialize(packet);
         let lengthString = this.CreateLengthString(serializedPacket.length);
         socket.write(lengthString);
@@ -13,7 +13,7 @@ class PacketSender {
     }
 
     CreateLengthString(length) {
-        return length.toString().padStart(this.PacketLengthSize, this.PacketLengthPadCharacter);
+        return length.toString().padStart(this.packetLengthSize, this.packetLengthPadCharacter);
     }
 }
 
