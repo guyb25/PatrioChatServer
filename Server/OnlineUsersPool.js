@@ -3,6 +3,10 @@ class OnlineUsersPool {
         this.users = new Map(); //<username, socket>
     }
 
+    GetOnlineUsersUsernames() {
+        return Array.from(this.users.keys());
+    }
+
     TryAddUser(username, socket) {
         if (!this.IsUserOnline(username)) {
             this.users.set(username, socket);

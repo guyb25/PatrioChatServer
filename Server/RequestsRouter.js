@@ -29,6 +29,14 @@ class RequestsRouter {
             case packetTypes.NewMessage:
                 this.actionsHandler.NewMessage(clientPacket.Value);
                 break;
+
+            case packetTypes.NewChat:
+                this.actionsHandler.CreateNewChat(clientPacket.Value);
+                break;
+
+            case packetTypes.RequestUsers:
+                this.actionsHandler.RequestUsers(socket);
+                break;
         }
     }
 }

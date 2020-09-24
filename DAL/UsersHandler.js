@@ -5,7 +5,7 @@ class UsersHandler {
     }
 
     GetAllUsers() {
-        return this.users;
+        return [...this.users];
     }
     
     // Attempt to add a user. Returns wether attempt was successful.

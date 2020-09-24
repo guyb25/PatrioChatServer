@@ -12,6 +12,12 @@ class PacketSender {
         socket.write(serializedPacket);
     }
 
+    SendMultiple(packet, sockets) {
+        sockets.forEach(socket => {
+            this.Send(packet,socket);
+        });
+    }
+
     CreateLengthString(length) {
         return length.toString().padStart(this.packetLengthSize, this.packetLengthPadCharacter);
     }

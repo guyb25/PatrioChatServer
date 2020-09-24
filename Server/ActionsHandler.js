@@ -18,6 +18,7 @@ class ActionsHandler {
 
         if (successfulAddUser) {
             this.InitPrivateChats(username);
+            this.BroadcastNewUser(username);
             this.logger.info(username + ' has registered.');
         }
 
@@ -48,22 +49,40 @@ class ActionsHandler {
         }
     }
 
+    BroadcastNewUser(username) {
+        let onlineUsers = this.onlineUsersPool.GetOnlineUsersUsernames();
+        this.SendToOnlineUsers(new Packet(packetTypes.NewUser, {Username: username}), onlineUsers);
+    }
+
+    CreateNewChat(info) {
+        let chatName = info.ChatName;
+        let participants = info.Participants.map(participant => participant.Username);
+
+        let chat = new Chat(chatName);
+        let chatId = this.chatsHandler.AddChat(chat);
+
+        participants.forEach((participant) => {
+            this.usersHandler.AddUserToChat(participant, chatId);
+        });
+
+        this.logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
+
+        let packet = new Packet(packetTypes.NewChat, {...chat, chatId});
+        let onlineParticipants = participants.filter(participant => this.onlineUsersPool.IsUserOnline(participant));
+        this.SendToOnlineUsers(packet, onlineParticipants);
+    }
+
     InitPrivateChats(newUser) {
         let users = this.usersHandler.GetAllUsers();
-        users.forEach((user) => {
-            if (user != newUser) {
-                // Add chat room to db
-                let chat = new Chat(user + ' & ' + newUser);
-                let chatId = this.chatsHandler.AddChat(chat);
-                this.usersHandler.AddUserToChat(newUser, chatId);
-                this.usersHandler.AddUserToChat(user, chatId);
+        let newUserIndex = users.indexOf(newUser);
 
-                // Notify users about new chat room
-                let packet = new Packet(packetTypes.NewChat, { ...chat, chatId });
-                let users = [user, newUser];
-                this.SendPacketToOnlineUsers(packet, users);
-            }
-        });
+        if (newUserIndex !== -1)
+        {
+            users.splice(newUserIndex, 1);
+            users.forEach(user => {
+                this.CreateNewChat({ChatName: user + ' & ' + newUser, Participants: [{Username: newUser}, {Username: user}]});
+            });
+        }   
     }
 
     NewMessage(message) {
@@ -77,9 +96,10 @@ class ActionsHandler {
         // Send message to online users in the room
         let packet = new Packet(packetTypes.NewMessage, message);
         let usersInRoom = this.usersHandler.GetUsersInChat(targetRoomId);
+        let onlineUsersInRoom = usersInRoom.filter(user => this.onlineUsersPool.IsUserOnline(user));
 
         try {
-            this.SendPacketToOnlineUsers(packet, usersInRoom);
+            this.SendToOnlineUsers(packet, onlineUsersInRoom);
         }
 
         catch (exception) {
@@ -101,13 +121,19 @@ class ActionsHandler {
         });
     }
 
-    SendPacketToOnlineUsers(packet, users) {
+    RequestUsers(socket) {
+        let users = this.usersHandler.GetAllUsers();
+
         users.forEach((user) => {
-            if (this.onlineUsersPool.IsUserOnline(user)) {
-                let userSocket = this.onlineUsersPool.GetUserSocket(user);
-                this.packetSender.Send(packet, userSocket);
-            }
+            let packet = new Packet(packetTypes.NewUser, {Username: user});
+            this.packetSender.Send(packet, socket);
         });
+    }
+
+    SendToOnlineUsers(packet, users) {
+        let onlineUsers = users.filter(user => this.onlineUsersPool.IsUserOnline(user));
+        let onlineUsersSockets = onlineUsers.map(user => this.onlineUsersPool.GetUserSocket(user));
+        this.packetSender.SendMultiple(packet, onlineUsersSockets);
     }
 }
 
