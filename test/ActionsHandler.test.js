@@ -29,6 +29,7 @@ describe('ActionsHandlerTests', () => {
 
         usersHandlerMock.expects('TryAddUser').withArgs(fakeData.Username).returns(true);
         actionsHandlerMock.expects('InitPrivateChats').withArgs(fakeData.Username).once();
+        actionsHandlerMock.expects('BroadcastNewUser').withArgs(fakeData.Username).once();
         packetSenderMock.expects('Send').withArgs(new Packet(packetTypes.ServerResponse, true), socketStub).once();
 
         actionsHandler.Register(fakeData, socketStub);
@@ -40,9 +41,12 @@ describe('ActionsHandlerTests', () => {
     it('test unsuccessful register', () => {        
         let fakeData = {Username: 'testUsername'};
         let usersHandlerMock = sinon.mock(usersHandler);
+        let actionsHandlerMock = sinon.mock(actionsHandler);
         let packetSenderMock = sinon.mock(packetSender);
 
         usersHandlerMock.expects('TryAddUser').withArgs(fakeData.Username).returns(false);
+        actionsHandlerMock.expects('InitPrivateChats').never();
+        actionsHandlerMock.expects('BroadcastNewUser').never();
         packetSenderMock.expects('Send').withArgs(new Packet(packetTypes.ServerResponse, false), socketStub).once();
 
         actionsHandler.Register(fakeData, socketStub);
@@ -126,7 +130,7 @@ describe('ActionsHandlerTests', () => {
 
         packetSenderMock.expects('Send').withArgs(fakePacket, fakeSocket).exactly(2);
 
-        actionsHandler.SendPacketToOnlineUsers(fakePacket, fakeData);
+        actionsHandler.SendToOnlineUsers(fakePacket, fakeData);
 
         sinon.verifyAndRestore();
     });
@@ -141,7 +145,7 @@ describe('ActionsHandlerTests', () => {
 
         chatsHandlerMock.expects('AddMessageToChat').withArgs(fakeMessage.TargetRoomId, fakeMessage).once();
         usersHandlerStub.GetUsersInChat.withArgs(fakeMessage.TargetRoomId).returns(fakeUsersInRoom);
-        actionsHandlerMock.expects('SendPacketToOnlineUsers').once().withArgs(new Packet(packetTypes.NewMessage, fakeMessage));
+        actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewMessage, fakeMessage));
 
         actionsHandler.NewMessage(fakeMessage);
 
@@ -183,9 +187,24 @@ describe('ActionsHandlerTests', () => {
         usersHandlerMock.expects('GetAllUsers').atLeast(0).returns(fakeUsers);
         chatsHandlerMock.expects('AddChat').exactly(amountOfChats);
         usersHandlerMock.expects('AddUserToChat').exactly(amountOfChats * 2);
-        actionsHandlerMock.expects('SendPacketToOnlineUsers').exactly(fakeUsers.length - 1);
+        actionsHandlerMock.expects('SendToOnlineUsers').exactly(fakeUsers.length - 1);
 
         actionsHandler.InitPrivateChats(fakeUsers[0]);
+
+        sinon.verifyAndRestore();
+    });
+
+    // Expecting the system to create the chat rooms for the users, and notify all the online users that a new chat was created.
+    it('test broadcast new user', () => {        
+        let fakeUser = 'fakeUser';
+        let fakeUsers = ['fakeUser1', 'fakeUser2'];
+        let onlineUsersPoolStub = sinon.stub(onlineUsersPool);
+        let actionsHandlerMock = sinon.mock(actionsHandler);
+
+        onlineUsersPoolStub.GetOnlineUsersUsernames.returns(fakeUsers);
+        actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewUser, {Username: fakeUser}), fakeUsers);
+
+        actionsHandler.BroadcastNewUser(fakeUser);
 
         sinon.verifyAndRestore();
     });
