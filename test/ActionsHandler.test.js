@@ -8,6 +8,7 @@ const PacketSender = require('../Server/PacketSender');
 const LoggerStub = require('./stubs/LoggerStub');
 const packetTypes = require('../Server/static/PacketTypes');
 const Packet = require('../Models/Packet');
+const Chat = require('../Models/Chat');
 
 let usersHandler = new UsersHandler();
 let chatsHandler = new ChatsHandler();
@@ -145,7 +146,7 @@ describe('ActionsHandlerTests', () => {
 
         chatsHandlerMock.expects('AddMessageToChat').withArgs(fakeMessage.TargetRoomId, fakeMessage).once();
         usersHandlerStub.GetUsersInChat.withArgs(fakeMessage.TargetRoomId).returns(fakeUsersInRoom);
-        actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewMessage, fakeMessage));
+        actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewMessage, fakeMessage), fakeUsersInRoom);
 
         actionsHandler.NewMessage(fakeMessage);
 
@@ -180,14 +181,11 @@ describe('ActionsHandlerTests', () => {
         let fakeUsers = ['fakeUser1', 'fakeUser2', 'fakeUser3', 'fakeUser4', 'fakeUser5'];
         let amountOfChats = fakeUsers.length - 1;
 
-        let usersHandlerMock = sinon.mock(usersHandler);
-        let chatsHandlerMock = sinon.mock(chatsHandler);
+        let usersHandlerStub = sinon.stub(usersHandler);
         let actionsHandlerMock = sinon.mock(actionsHandler);
 
-        usersHandlerMock.expects('GetAllUsers').atLeast(0).returns(fakeUsers);
-        chatsHandlerMock.expects('AddChat').exactly(amountOfChats);
-        usersHandlerMock.expects('AddUserToChat').exactly(amountOfChats * 2);
-        actionsHandlerMock.expects('SendToOnlineUsers').exactly(fakeUsers.length - 1);
+        usersHandlerStub.GetAllUsers.returns(fakeUsers);
+        actionsHandlerMock.expects('CreateNewChat').exactly(amountOfChats);
 
         actionsHandler.InitPrivateChats(fakeUsers[0]);
 
@@ -195,6 +193,22 @@ describe('ActionsHandlerTests', () => {
     });
 
     // Expecting the system to create the chat rooms for the users, and notify all the online users that a new chat was created.
+    it('test init private chats - user not found', () => {        
+        let fakeUsers = ['fakeUser1', 'fakeUser2', 'fakeUser3', 'fakeUser4', 'fakeUser5'];
+        let fakeUser = 'fakeUser6';
+
+        let usersHandlerStub = sinon.stub(usersHandler);
+        let actionsHandlerMock = sinon.mock(actionsHandler);
+
+        usersHandlerStub.GetAllUsers.returns(fakeUsers);
+        actionsHandlerMock.expects('CreateNewChat').never();
+
+        actionsHandler.InitPrivateChats(fakeUser);
+
+        sinon.verifyAndRestore();
+    });
+
+    // Expecting the system to create the notify all the users that a user was created.
     it('test broadcast new user', () => {        
         let fakeUser = 'fakeUser';
         let fakeUsers = ['fakeUser1', 'fakeUser2'];
@@ -205,6 +219,32 @@ describe('ActionsHandlerTests', () => {
         actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewUser, {Username: fakeUser}), fakeUsers);
 
         actionsHandler.BroadcastNewUser(fakeUser);
+
+        sinon.verifyAndRestore();
+    });
+
+    // Expecting the system to create the chat room, and notify all the participants.
+    it('test create new chat', () => {        
+        let fakeParticipants = [{Username: 'fakeUser1'}, {Username:'fakeUser2'}];
+        let fakeUsernames = ['fakeUser1', 'fakeUser2'];
+        let fakeChatName = 'fakeChatName';
+        let fakeChatId = '6';
+        let fakeInfo = { ChatName: fakeChatName, Participants: fakeParticipants };
+        let fakeChat = new Chat(fakeChatName);
+
+        let chatsHandlerMock = sinon.mock(chatsHandler);
+        let usersHandlerMock = sinon.mock(usersHandler);
+        let actionsHandlerMock = sinon.mock(actionsHandler);
+
+        chatsHandlerMock.expects('AddChat').once().returns(fakeChatId);
+
+        fakeUsernames.forEach((user) => {
+            usersHandlerMock.expects('AddUserToChat').once().withArgs(user, fakeChatId);
+        });
+
+        actionsHandlerMock.expects('SendToOnlineUsers').once().withArgs(new Packet(packetTypes.NewChat, {...fakeChat, chatId: fakeChatId}), fakeUsernames);
+
+        actionsHandler.CreateNewChat(fakeInfo);
 
         sinon.verifyAndRestore();
     });

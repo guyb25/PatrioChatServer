@@ -68,8 +68,7 @@ class ActionsHandler {
         this.logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
 
         let packet = new Packet(packetTypes.NewChat, {...chat, chatId});
-        let onlineParticipants = participants.filter(participant => this.onlineUsersPool.IsUserOnline(participant));
-        this.SendToOnlineUsers(packet, onlineParticipants);
+        this.SendToOnlineUsers(packet, participants);
     }
 
     InitPrivateChats(newUser) {
@@ -96,9 +95,7 @@ class ActionsHandler {
         // Send message to online users in the room
         let packet = new Packet(packetTypes.NewMessage, message);
         let usersInRoom = this.usersHandler.GetUsersInChat(targetRoomId);
-        let onlineUsersInRoom = usersInRoom.filter(user => this.onlineUsersPool.IsUserOnline(user));
-
-        this.SendToOnlineUsers(packet, onlineUsersInRoom); 
+        this.SendToOnlineUsers(packet, usersInRoom); 
     }
 
     RequestChats(info, socket) {
