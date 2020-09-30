@@ -10,16 +10,16 @@ class OnlineUsersPool {
     TryAddUser(username, socket) {
         if (!this.IsUserOnline(username)) {
             this.users.set(username, socket);
-            return this.IsUserOnline(username);
+            return true;
         }
         return false;
     }
 
     TryRemoveUser(username) {
         if (this.IsUserOnline(username)) {
-            this.CloseUserSocket(username);
+            let successfulCloseSocket = this.TryCloseUserSocket(username);
             this.users.delete(username);
-            return !this.IsUserOnline(username);
+            return successfulCloseSocket;
         }
         return false;
     }
@@ -28,9 +28,17 @@ class OnlineUsersPool {
         return this.users.get(username);
     }
 
-    CloseUserSocket(username) {
+    TryCloseUserSocket(username) {
         let userSocket = this.users.get(username);
-        userSocket.destroy();
+
+        try {
+            userSocket.destroy();
+            return true;
+        }
+
+        catch(exception) {
+            return false;
+        }
     }
 
     IsUserOnline(username) {

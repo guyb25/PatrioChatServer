@@ -1,12 +1,9 @@
 const packetTypes = require('./static/PacketTypes');
-const protcolConfigs = require('./static/ProtocolConfigs');
-const Chat = require('../Models/Chat');
-const Packet = require('../Models/Packet');
+const uuid = require('uuid');
 
 class ActionsHandler {
-    constructor(userChatsDB, chatMessagesDB, onlineUsersPool, packetSender, logger) {
-        this.userChatsDB = userChatsDB;
-        this.chatMessagesDB = chatMessagesDB;
+    constructor(dataAccess, onlineUsersPool, packetSender, logger) {
+        this.dataAccess = dataAccess;
         this.onlineUsersPool = onlineUsersPool;
         this.packetSender = packetSender;
         this.logger = logger;
@@ -14,7 +11,7 @@ class ActionsHandler {
 
     async Register(info, socket) {
         let username = info.Username;
-        let successfulRegisterUser = await this.userChatsDB.TryRegisterUser(username);
+        let successfulRegisterUser = await this.dataAccess.TryRegisterUser(username);
 
         if (successfulRegisterUser) {
             await this.InitPrivateChats(username);
@@ -27,7 +24,16 @@ class ActionsHandler {
 
     async Login(info, socket) {
         let username = info.Username;
-        let successfulLogin = await this.userChatsDB.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
+        let successfulLogin = false;
+
+        try {
+            successfulLogin = await this.dataAccess.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
+        }
+
+        catch(exception) {
+            this.logger.warn(successfulLogin);
+            successfulLogin = false;
+        }
 
         if (successfulLogin) {
             this.logger.info(username + ' has logged in.');
@@ -57,62 +63,77 @@ class ActionsHandler {
     async CreateNewChat(info) {
         let chatName = info.ChatName;
         let participants = info.Participants.map(participant => participant.Username);
+        let chatId = uuid.v4();
 
-        let chat = new Chat(chatName);
-        let chatId = await this.userChatsDB.AddChat(chatName);
-        await this.chatMessagesDB.AddChat(chat, chatId);
-
-        for (const participant of participants) {
-            await this.userChatsDB.AddUserToChat(participant, chatId);
-        }
-
+        this.dataAccess.CreateNewChat(chatId, chatName, participants);
         this.logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
 
-        this.SendToOnlineUsers(packetTypes.NewChat, {...chat, chatId}, participants);
+        let chat = { ChatId: chatId, ChatName: chatName, Messages: [] };
+        this.SendToOnlineUsers(packetTypes.NewChat, chat, participants);
     }
 
     async InitPrivateChats(newUser) {
-        let users = await this.userChatsDB.GetAllUsers();
-        let newUserIndex = users.indexOf(newUser);
+        try {
+            let users = await this.dataAccess.GetAllUsers();
+            let newUserIndex = users.indexOf(newUser);
 
-        if (newUserIndex !== -1)
-        {
-            users.splice(newUserIndex, 1);
+            if (newUserIndex !== -1)
+            {
+                users.splice(newUserIndex, 1);
+            }
+
+            for (const user of users) {
+                await this.CreateNewChat({ChatName: user + ' & ' + newUser, Participants: [{Username: newUser}, {Username: user}]});
+            }   
         }
-
-        for (const user of users) {
-            await this.CreateNewChat({ChatName: user + ' & ' + newUser, Participants: [{Username: newUser}, {Username: user}]});
-        }   
+        
+        catch(exception) {
+            this.logger.warn(exception);
+        }
     }
 
     async NewMessage(message) {
-        let targetRoomId = message.TargetRoomId;
+        let targetChatId = message.TargetRoomId;
 
-        this.logger.info(message.Sender + ' has sent a new message to room ' + targetRoomId + '.');
+        this.logger.info(message.Sender + ' has sent a new message to room ' + targetChatId + '.');
 
         // Add message to DB
-        await this.chatMessagesDB.AddMessageToChat(targetRoomId, message);
+        await this.dataAccess.AddMessageToChat(targetChatId, message);
 
         // Send message to online users in the room
-        let usersInRoom = await this.userChatsDB.GetUsersInChat(targetRoomId);
+        let usersInRoom = await this.dataAccess.GetUsersInChat(targetChatId);
         this.SendToOnlineUsers(packetTypes.NewMessage, message, usersInRoom); 
     }
 
     async RequestChats(info, socket) {
-        let username = info.Username;
-        let chats = await this.userChatsDB.GetUserChats(username);
+        try {
+            let username = info.Username;
+            let chats = await this.dataAccess.GetUserChats(username);
+    
+            this.logger.info(username + ' has requested his chat history.');
+    
+            for (const chat of chats) {
+                let chatMessages = await this.dataAccess.GetMessagesInChat(chat.ChatId);
+                chat.Messages = chatMessages;
+                this.packetSender.Send(packetTypes.NewChat, chat, socket);
+            }
+        }
 
-        this.logger.info(username + ' has requested his chat history.');
-
-        for (const chat of chats) {
-            let chatMessages = await this.chatMessagesDB.GetMessages(chat.ChatId);
-            chat.Messages = chatMessages;
-            this.packetSender.Send(packetTypes.NewChat, chat, socket);
+        catch(exception) {
+            this.logger.warn(exception);
         }
     }
 
     async RequestUsers(socket) {
-        let users = await this.userChatsDB.GetAllUsers();
+        let users = [];
+
+        try {
+            users = await this.dataAccess.GetAllUsers();   
+        }
+
+        catch (exception) {
+            this.logger.warn(exception);
+        }
 
         users.forEach((user) => {
             this.packetSender.Send(packetTypes.NewUser, {Username: user}, socket);
@@ -123,18 +144,8 @@ class ActionsHandler {
         let onlineUsers = users.filter(user => this.onlineUsersPool.IsUserOnline(user));
 
         onlineUsers.forEach(user => {
-            try {
-                let socket = this.onlineUsersPool.GetUserSocket(user);
-                this.packetSender.Send(packetType, packetContent, socket);
-            }
-
-            catch(exception) {
-                this.logger.error('Exception thrown when trying to send a packet to ' + user + '. \n' + 
-                'Packet: \n' +
-                JSON.stringify(packet) + '\n' +
-                'Exception: \n' + 
-                JSON.stringify(exception));
-            }
+            let socket = this.onlineUsersPool.GetUserSocket(user);
+            this.packetSender.Send(packetType, packetContent, socket);
         });
     }
 }

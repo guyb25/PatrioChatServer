@@ -9,8 +9,8 @@ class ChatsMessagesMongoDB {
         });
     }
 
-    async AddChat(chat, chatId) {
-        chat.ChatId = chatId;
+    async AddChat(chatId, chatName) {
+        let chat = { ChatId: chatId, ChatName: chatName, Messages: []}
         await this.collection.insertOne(chat);
     }
 

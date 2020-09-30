@@ -16,11 +16,8 @@ class Server {
     }
 
     handleMessages() {
-        let sockets = [];
-
         this.server.on('connection', (socket) => {
-            this.logger.info('CONNECTED: ' + socket.remoteAddress + ':' + socket.remotePort);
-            sockets.push(socket);
+            this.logger.info('CONNECTED: ' + socket.remoteAddress + ': ' + socket.remotePort);
 
             socket.on('data', (data) => {
                 this.logger.info('DATA ' + socket.remoteAddress + ': ' + data);
@@ -28,14 +25,7 @@ class Server {
             });
 
             socket.on('close', (data) => {
-                let index = sockets.findIndex((client) => {
-                    return client.remoteAddress === socket.remoteAddress && client.remotePort === socket.remotePort;
-                });
-
-                if (index !== -1) {
-                    sockets.splice(index, 1);
-                    this.logger.info('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
-                }
+                this.logger.info('CLOSED: ' + socket.remoteAddress + ': ' + socket.remotePort);
             });
 
             socket.on('error', (error) => {

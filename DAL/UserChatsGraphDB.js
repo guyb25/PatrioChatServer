@@ -1,4 +1,3 @@
-const uuid = require('uuid');
 const neo4j = require('neo4j-driver');
 const dbConstants = require('./static/UserChatsGraphDBConstants');
 const driver = neo4j.driver(dbConstants.url, neo4j.auth.basic(dbConstants.user, dbConstants.password));
@@ -43,12 +42,10 @@ class UserChatsGraphDB {
         session.close();
     }
 
-    async AddChat(chatName) {
-        let id = uuid.v4();
+    async AddChat(chatId, chatName) {
         let session = driver.session();
-        await session.run('CREATE (:Chat { ChatId: "' + id + '", ChatName: "' + chatName + '" })');
+        await session.run('CREATE (:Chat { ChatId: "' + chatId + '", ChatName: "' + chatName + '" })');
         session.close();
-        return id;
     }
 
     async GetUsersInChat(chatId) {

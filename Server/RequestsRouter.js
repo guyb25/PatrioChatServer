@@ -1,13 +1,12 @@
 const packetTypes = require('./static/PacketTypes');
 
 class RequestsRouter {
-    constructor(actionsHandler, serializer) {
+    constructor(actionsHandler) {
         this.actionsHandler = actionsHandler;
-        this.serializer = serializer;
     }
 
     route(socket, data) {
-        let clientPacket = this.serializer.deserialize(data);
+        let clientPacket = JSON.parse(data);
 
         switch(clientPacket.Type) {
             case packetTypes.Register:
