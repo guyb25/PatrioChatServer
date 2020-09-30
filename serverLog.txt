@@ -275,3 +275,138 @@
 16:54:42.674 INFO  guy has logged out. 
 16:54:43.977 INFO  guy2 has logged out. 
 16:54:45.696 INFO  guy3 has logged out. 
+11:42:45.222 INFO  guy has registered. 
+11:42:46.067 INFO  guy has logged in. 
+11:42:46.155 INFO  guy has requested his chat history. 
+11:43:06.802 INFO  Chat guy & guy2 has been created with id 3be7498e-af6d-4e8f-b452-731489a702ad 
+11:43:06.803 INFO  guy2 has registered. 
+11:43:10.609 INFO  guy has sent a new message to room 3be7498e-af6d-4e8f-b452-731489a702ad. 
+11:43:13.466 INFO  guy2 has logged in. 
+11:43:13.513 INFO  guy2 has requested his chat history. 
+11:43:17.676 INFO  guy2 has sent a new message to room 3be7498e-af6d-4e8f-b452-731489a702ad. 
+11:45:15.040 INFO  Chat guy & guy3 has been created with id 3bee4fd9-1a50-4b6c-9fcb-715d900789e0 
+11:45:15.040 INFO  Chat guy2 & guy3 has been created with id ce000d8e-b700-4d1e-9a8b-81a2fecbdd2e 
+11:45:15.040 INFO  guy3 has registered. 
+11:45:15.699 INFO  guy3 has logged in. 
+11:45:15.755 INFO  guy3 has requested his chat history. 
+11:45:20.502 INFO  guy3 has sent a new message to room 3bee4fd9-1a50-4b6c-9fcb-715d900789e0. 
+11:45:35.154 INFO  Chat cool boiz has been created with id d7ae542b-d6b4-40e1-9e16-9b4bb96647d8 
+11:45:38.887 INFO  guy has sent a new message to room d7ae542b-d6b4-40e1-9e16-9b4bb96647d8. 
+11:45:44.445 INFO  guy3 has logged out. 
+11:45:48.260 INFO  guy has sent a new message to room d7ae542b-d6b4-40e1-9e16-9b4bb96647d8. 
+11:45:52.546 INFO  guy3 has logged in. 
+11:47:18.977 INFO  guy has registered. 
+11:47:20.266 INFO  guy has logged in. 
+11:47:20.309 INFO  guy has requested his chat history. 
+11:47:23.616 INFO  Chat guy & guy2 has been created with id 12cebd96-4fd1-469e-9930-ece780c64d07 
+11:47:23.617 INFO  guy2 has registered. 
+11:47:24.106 INFO  guy2 has logged in. 
+11:47:24.158 INFO  guy2 has requested his chat history. 
+11:47:28.280 INFO  guy has sent a new message to room 12cebd96-4fd1-469e-9930-ece780c64d07. 
+11:47:29.335 INFO  guy2 has logged out. 
+11:47:33.089 INFO  guy2 has logged in. 
+11:47:33.176 INFO  guy2 has requested his chat history. 
+11:47:37.128 INFO  guy2 has logged out. 
+11:47:39.664 INFO  guy has sent a new message to room 12cebd96-4fd1-469e-9930-ece780c64d07. 
+11:47:43.095 INFO  guy2 has logged in. 
+11:47:43.211 INFO  guy2 has requested his chat history. 
+11:47:58.272 INFO  Chat guy & guy3 has been created with id 0042f9e2-2c4d-45bf-9753-8ad15711dcb5 
+11:47:58.272 INFO  Chat guy2 & guy3 has been created with id 2cf7eb49-b95d-4b0d-aaab-d0caab0c5c42 
+11:47:58.273 INFO  guy3 has registered. 
+11:47:58.690 INFO  guy3 has logged in. 
+11:47:58.757 INFO  guy3 has requested his chat history. 
+11:48:05.990 INFO  Chat cool boiz has been created with id bd5e2e2d-805b-456b-9f76-57270be3c9b4 
+11:48:10.801 INFO  guy has sent a new message to room bd5e2e2d-805b-456b-9f76-57270be3c9b4. 
+11:48:14.842 INFO  guy3 has logged out. 
+11:48:17.401 INFO  guy3 has logged in. 
+11:48:17.511 INFO  guy3 has requested his chat history. 
+11:48:37.624 INFO  guy3 has logged out. 
+11:48:38.626 INFO  guy has logged out. 
+11:48:39.666 INFO  guy2 has logged out. 
+12:00:41.518 INFO  guy has registered. 
+12:00:41.545 INFO  Chat Guy & guy has been created with id 05c0d913-f97e-4116-b464-85a8852f50de 
+12:01:46.734 INFO  Mikey has registered. 
+12:01:46.757 INFO  Chat Guy & Mikey has been created with id 383b9818-f853-4bdd-af98-c19d9baa89c3 
+12:09:01.354 INFO  Chat Guy & lol has been created with id 6a8ef9bd-c152-499c-a12a-2addf8bba467 
+12:09:01.425 INFO  Chat guy & lol has been created with id 8058f82a-92d4-484d-b2af-84729d4835da 
+12:09:01.487 INFO  Chat Mikey & lol has been created with id 2e255051-84fa-49af-b818-2802b85bb80a 
+12:09:01.488 INFO  lol has registered. 
+12:22:05.190 INFO  guy has registered. 
+12:23:24.672 INFO  guy has logged in. 
+12:23:25.278 INFO  guy has requested his chat history. 
+12:23:34.154 INFO  Chat guy & Mikey has been created with id f1976fc4-1e92-4336-8085-bfde5a9265e9 
+12:23:34.155 INFO  Mikey has registered. 
+12:23:47.894 INFO  Mikey has logged in. 
+12:23:48.372 INFO  Mikey has requested his chat history. 
+12:23:55.947 INFO  guy has sent a new message to room f1976fc4-1e92-4336-8085-bfde5a9265e9. 
+12:25:10.171 INFO  Chat guy & Libby has been created with id 4b796621-d5c6-40d5-9a8f-079d8ca4f376 
+12:25:10.245 INFO  Chat Mikey & Libby has been created with id 016ac4c0-b568-40bb-8448-64808b590d2a 
+12:25:10.245 INFO  Libby has registered. 
+12:25:12.520 INFO  Libby has logged in. 
+12:25:12.885 INFO  Libby has requested his chat history. 
+12:28:45.582 INFO  guy has logged in. 
+12:28:45.886 INFO  guy has requested his chat history. 
+12:45:13.563 INFO  Chat guy & Anna has been created with id 80ba0cf5-9030-4e57-a883-cad174cf9d60 
+12:45:13.643 INFO  Chat Mikey & Anna has been created with id 8be63e97-458c-4774-bf4f-5219f8aee663 
+12:45:13.704 INFO  Chat Libby & Anna has been created with id 3e8c0c19-3dfc-4742-b8ba-3d0a17f4bfa7 
+12:45:13.705 INFO  Anna has registered. 
+12:46:01.785 INFO  Anna has logged in. 
+12:46:02.265 INFO  Anna has requested his chat history. 
+12:46:36.413 INFO  guy has logged in. 
+12:46:36.706 INFO  guy has requested his chat history. 
+12:54:05.809 INFO  Libby has logged in. 
+12:58:19.163 INFO  guy has logged in. 
+12:58:24.224 INFO  guy has requested his chat history. 
+13:01:02.940 INFO  guy has logged in. 
+13:01:06.606 INFO  guy has requested his chat history. 
+13:01:30.985 INFO  guy has logged in. 
+13:01:31.185 INFO  guy has requested his chat history. 
+13:12:17.022 INFO  Chat guy & guy2 has been created with id afb25172-8085-4818-8c67-e11e5efa8baf 
+13:12:17.100 INFO  Chat Mikey & guy2 has been created with id 4d55be98-e1f6-4075-9d70-32500de0e6af 
+13:12:17.160 INFO  Chat Libby & guy2 has been created with id 00f7e592-78f1-4a51-ae25-b467e4d73d87 
+13:12:17.221 INFO  Chat Anna & guy2 has been created with id 9525af9c-fd7b-4b52-829a-56e9a333f3f6 
+13:12:17.222 INFO  guy2 has registered. 
+13:12:27.932 INFO  guy has logged in. 
+13:12:28.066 INFO  guy has requested his chat history. 
+13:17:06.353 INFO  guy has logged in. 
+13:19:32.607 INFO  guy has logged in. 
+13:19:32.817 INFO  guy has requested his chat history. 
+13:27:32.100 INFO  Guy has registered. 
+13:27:42.088 INFO  Chat Guy & Libby has been created with id 233003f0-bb2f-4f74-b47e-a8c9da4e1ade 
+13:27:42.089 INFO  Libby has registered. 
+13:28:14.510 INFO  Guy has logged in. 
+13:28:15.239 INFO  Guy has requested his chat history. 
+13:28:40.722 INFO  Libby has logged in. 
+13:28:40.986 INFO  Libby has requested his chat history. 
+13:28:53.804 INFO  Chat Guy & Zoey has been created with id 295e3436-5634-4f3d-818c-1b534cb4f15c 
+13:28:53.907 INFO  Chat Libby & Zoey has been created with id 1bc1aa3b-ae81-48d9-9364-be30ea66c6a5 
+13:28:53.907 INFO  Zoey has registered. 
+13:28:56.778 INFO  Zoey has logged in. 
+13:28:57.208 INFO  Zoey has requested his chat history. 
+13:29:03.193 INFO  Zoey has sent a new message to room 295e3436-5634-4f3d-818c-1b534cb4f15c. 
+13:34:38.225 INFO  Guy has logged in. 
+13:34:38.456 INFO  Guy has requested his chat history. 
+13:34:42.003 INFO  Guy has sent a new message to room 233003f0-bb2f-4f74-b47e-a8c9da4e1ade. 
+13:34:48.600 INFO  Libby has logged in. 
+13:34:48.782 INFO  Libby has requested his chat history. 
+13:34:53.568 INFO  Libby has sent a new message to room 233003f0-bb2f-4f74-b47e-a8c9da4e1ade. 
+13:34:55.647 INFO  Guy has sent a new message to room 233003f0-bb2f-4f74-b47e-a8c9da4e1ade. 
+13:34:59.339 INFO  Libby has sent a new message to room 1bc1aa3b-ae81-48d9-9364-be30ea66c6a5. 
+13:35:06.533 INFO  Zoey has logged in. 
+13:35:06.715 INFO  Zoey has requested his chat history. 
+13:35:12.725 INFO  Zoey has sent a new message to room 1bc1aa3b-ae81-48d9-9364-be30ea66c6a5. 
+13:35:23.286 INFO  Chat cool boiz has been created with id f3410585-8603-4ab3-9d68-b11a134f6bdc 
+13:35:26.982 INFO  Libby has sent a new message to room f3410585-8603-4ab3-9d68-b11a134f6bdc. 
+13:35:31.381 INFO  Zoey has sent a new message to room f3410585-8603-4ab3-9d68-b11a134f6bdc. 
+13:35:39.596 INFO  Guy has sent a new message to room f3410585-8603-4ab3-9d68-b11a134f6bdc. 
+13:35:54.539 INFO  Guy has logged out. 
+13:35:55.514 INFO  Zoey has logged out. 
+13:35:56.537 INFO  Libby has logged out. 
+13:36:00.280 INFO  Guy has logged in. 
+13:36:00.754 INFO  Guy has requested his chat history. 
+13:36:12.863 INFO  Guy has logged out. 
+13:36:16.814 INFO  Guy has logged in. 
+13:36:16.985 INFO  Guy has requested his chat history. 
+13:38:16.033 INFO  Guy has logged in. 
+13:38:16.220 INFO  Guy has requested his chat history. 
+13:38:20.418 INFO  Guy has logged out. 

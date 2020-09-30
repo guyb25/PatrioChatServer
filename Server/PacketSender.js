@@ -1,3 +1,5 @@
+const Packet = require("../Models/Packet");
+
 class PacketSender {
     constructor(serializer, packetLengthSize, packetLengthPadCharacter) {
         this.serializer = serializer;
@@ -5,7 +7,8 @@ class PacketSender {
         this.packetLengthPadCharacter = packetLengthPadCharacter;
     }
 
-    Send(packet, socket) {
+    Send(packetType, packetContent, socket) {
+        let packet = new Packet(packetType, packetContent);
         let serializedPacket = this.serializer.serialize(packet);
         let lengthString = this.CreateLengthString(serializedPacket.length);
         socket.write(lengthString);

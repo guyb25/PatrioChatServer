@@ -1,11 +1,11 @@
 class Chat {
     constructor(chatName) {
-        this.chatName = chatName;
-        this.messages = [];
+        this.ChatName = chatName;
+        this.Messages = [];
     }
 
     AddMessage(message) {
-        this.messages.push(message);
+        this.Messages.push(message);
     }
 }
 
