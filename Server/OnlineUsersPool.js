@@ -3,32 +3,32 @@ class OnlineUsersPool {
         this.users = new Map(); //<username, socket>
     }
 
-    GetOnlineUsersUsernames() {
+    getOnlineUsersUsernames() {
         return Array.from(this.users.keys());
     }
 
-    TryAddUser(username, socket) {
-        if (!this.IsUserOnline(username)) {
+    tryAddUser(username, socket) {
+        if (!this.isUserOnline(username)) {
             this.users.set(username, socket);
             return true;
         }
         return false;
     }
 
-    TryRemoveUser(username) {
-        if (this.IsUserOnline(username)) {
-            let successfulCloseSocket = this.TryCloseUserSocket(username);
+    tryRemoveUser(username) {
+        if (this.isUserOnline(username)) {
+            let successfulCloseSocket = this.tryCloseUserSocket(username);
             this.users.delete(username);
             return successfulCloseSocket;
         }
         return false;
     }
 
-    GetUserSocket(username) {
+    getUserSocket(username) {
         return this.users.get(username);
     }
 
-    TryCloseUserSocket(username) {
+    tryCloseUserSocket(username) {
         let userSocket = this.users.get(username);
 
         try {
@@ -41,7 +41,7 @@ class OnlineUsersPool {
         }
     }
 
-    IsUserOnline(username) {
+    isUserOnline(username) {
         return this.users.has(username);
     }
 }

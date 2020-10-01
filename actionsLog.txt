@@ -94,3 +94,22 @@
 13:25:44.418 INFO  Guy has logged in. 
 13:25:46.919 INFO  Guy has requested his chat history. 
 13:25:53.582 INFO  Guy has logged out. 
+13:58:00.733 INFO  Guy has logged in. 
+13:58:00.873 INFO  Guy has requested his chat history. 
+13:58:04.396 INFO  Guy has sent a new message to room f85c21ac-5aa2-4eda-b539-8c258fe6c1c9. 
+13:58:11.246 INFO  Chat gg has been created with id 3f10dd2e-a99a-49ec-a8d5-6357e5a0b28b 
+13:58:15.122 INFO  Guy has sent a new message to room 3f10dd2e-a99a-49ec-a8d5-6357e5a0b28b. 
+13:58:18.890 INFO  Guy has logged out. 
+13:58:24.588 INFO  Chat Guy & Guy2 has been created with id 4a018ffd-a6db-42e6-b507-507897d1f30a 
+13:58:24.589 INFO  Chat Libby & Guy2 has been created with id 068264e1-f122-457a-b090-e95fd9aea9f9 
+13:58:24.590 INFO  Chat Zoey & Guy2 has been created with id 8c5ed374-38c8-424b-8f25-8cf5a0be2f03 
+13:58:24.592 INFO  Chat Mikey & Guy2 has been created with id bb744986-3cc5-44d2-acb0-14032d1cdb96 
+13:58:24.594 INFO  Chat Elmo & Guy2 has been created with id 0e860733-e0c3-4e79-90a3-6e2b830486a7 
+13:58:24.596 INFO  Chat Kermit & Guy2 has been created with id 753f1024-3407-4b50-b4ee-43431f11dda9 
+13:58:24.598 INFO  Chat Ms. Piggy & Guy2 has been created with id 9eb867ab-c1a5-4dda-8e96-afa91bd27911 
+13:58:24.600 INFO  Chat Seal & Guy2 has been created with id feebd30a-e5f8-43ce-a861-9d8d31ebb551 
+13:58:24.602 INFO  Chat God & Guy2 has been created with id 2c423d8a-627f-4584-8978-997dc704b090 
+13:58:24.602 INFO  Guy2 has registered. 
+13:58:32.066 INFO  Guy has logged in. 
+13:58:32.172 INFO  Guy has requested his chat history. 
+13:58:40.440 INFO  Guy has logged out. 

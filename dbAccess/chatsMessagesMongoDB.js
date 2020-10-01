@@ -9,19 +9,19 @@ class ChatsMessagesMongoDB {
         });
     }
 
-    async AddChat(chatId, chatName) {
+    async addChat(chatId, chatName) {
         let chat = { ChatId: chatId, ChatName: chatName, Messages: []}
         await this.collection.insertOne(chat);
     }
 
-    async GetMessages(chatId) {
+    async getMessages(chatId) {
         let query = { ChatId: chatId };
         let result = await this.collection.findOne(query);
         return result.Messages;
     }
 
-    async AddMessageToChat(chatId, message) {
-        let messages = await this.GetMessages(chatId);
+    async addMessageToChat(chatId, message) {
+        let messages = await this.getMessages(chatId);
         messages.push(message);
 
         let findQuery = { ChatId: chatId };

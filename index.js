@@ -1,11 +1,11 @@
-const ActionsHandler = require('./Server/ActionsHandler');
-const OnlineUsersPool = require('./Server/OnlineUsersPool');
-const RequestsRouter = require('./Server/RequestsRouter');
-const Server = require('./Server/Server');
-const PacketSender = require('./Server/PacketSender');
-const UserChatsGraphDB = require('./DAL/UserChatsGraphDB');
-const ChatsMessagesMongoDB = require('./DAL/ChatsMessagesMongoDB');
-const DataAccess = require('./DAL/DataAccess');
+const ActionsHandler = require('./server/actionsHandler');
+const OnlineUsersPool = require('./server/onlineUsersPool');
+const RequestsRouter = require('./server/requestsRouter');
+const Server = require('./server/server');
+const PacketSender = require('./server/packetSender');
+const UserChatsGraphDB = require('./dbAccess/userChatsGraphDB');
+const ChatsMessagesMongoDB = require('./dbAccess/chatsMessagesMongoDB');
+const DataAccess = require('./dbAccess/dataAccess');
 
 let userChatsGraphDB = new UserChatsGraphDB();
 let chatMessagesMongoDB = new ChatsMessagesMongoDB();

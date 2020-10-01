@@ -3,38 +3,38 @@ const configs = require('config').get('databaseConfigs').get('userChatsDbConfigs
 const driver = neo4j.driver(configs.url, neo4j.auth.basic(configs.user, configs.password));
 
 class UserChatsGraphDB {
-    Shutdown() {
+    shutdown() {
         driver.close();
     }
 
-    async GetAllUsers() {
+    async getAllUsers() {
         let session = driver.session();
         let result = await session.run('MATCH (users:User) RETURN users');
         session.close();
         return result.records.map((record) => record.get(0).properties.Username);
     }
 
-    async IsUserRegistered(username) {
-        let allUsernames = await this.GetAllUsers();
+    async isUserRegistered(username) {
+        let allUsernames = await this.getAllUsers();
         return allUsernames.includes(username);
     }
 
-    async TryRegisterUser(username) {
-        if (!await this.IsUserRegistered(username)) {
-            await this.RegisterUser(username);
-            return this.IsUserRegistered(username);
+    async tryRegisterUser(username) {
+        if (!await this.isUserRegistered(username)) {
+            await this.registerUser(username);
+            return this.isUserRegistered(username);
         }
 
         return false;
     }
 
-    async RegisterUser(username) {
+    async registerUser(username) {
         let session = driver.session();
         await session.run('CREATE (:User { Username: "' + username + '" })');
         session.close();
     }
 
-    async AddUserToChat(username, chatId) {
+    async addUserToChat(username, chatId) {
         let session = driver.session();
         await session.run('MATCH (user: User), (chat: Chat)' + 
         ' WHERE user.Username = "' + username + '" AND chat.ChatId = "' + chatId + '"' +
@@ -42,13 +42,13 @@ class UserChatsGraphDB {
         session.close();
     }
 
-    async AddChat(chatId, chatName) {
+    async addChat(chatId, chatName) {
         let session = driver.session();
         await session.run('CREATE (:Chat { ChatId: "' + chatId + '", ChatName: "' + chatName + '" })');
         session.close();
     }
 
-    async GetUsersInChat(chatId) {
+    async getUsersInChat(chatId) {
         let session = driver.session();
         let result = await session.run('MATCH (users: User), (chat: Chat)' + 
         ' WHERE chat.ChatId = "' + chatId + '" AND (chat)-[:CONTAINS]->(users)' + 
@@ -57,7 +57,7 @@ class UserChatsGraphDB {
         return result.records.map((record) => record.get(0).properties.Username);
     }
 
-    async GetUserChats(username) {
+    async getUserChats(username) {
         let session = driver.session();
         let result = await session.run('MATCH (user: User), (chats: Chat)' +
         ' WHERE user.Username = "' + username + '" AND (chats)-[:CONTAINS]->(user)' +
@@ -66,7 +66,7 @@ class UserChatsGraphDB {
         return result.records.map((record) => record.get(0).properties);
     }
 
-    async GetChat(chatId) {
+    async getChat(chatId) {
         let session = driver.session();
         let result = await session.run('MATCH (chat: Chat)' +
         ' WHERE chat.ChatId = "' + chatId + '"' +

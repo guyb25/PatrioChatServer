@@ -10,31 +10,31 @@ class RequestsRouter {
 
         switch(clientPacket.Type) {
             case packetTypes.register:
-                this.actionsHandler.Register(clientPacket.Value, socket);
+                this.actionsHandler.register(clientPacket.Value, socket);
                 break;
 
             case packetTypes.login:
-                this.actionsHandler.Login(clientPacket.Value, socket);
+                this.actionsHandler.login(clientPacket.Value, socket);
                 break;
 
             case packetTypes.requestChats:
-                this.actionsHandler.RequestChats(clientPacket.Value, socket);
+                this.actionsHandler.requestChats(clientPacket.Value, socket);
                 break;
 
             case packetTypes.logout:
-                this.actionsHandler.Logout(clientPacket.Value);
+                this.actionsHandler.logout(clientPacket.Value);
                 break;
 
             case packetTypes.newMessage:
-                this.actionsHandler.NewMessage(clientPacket.Value);
+                this.actionsHandler.newMessage(clientPacket.Value);
                 break;
 
             case packetTypes.newChat:
-                this.actionsHandler.CreateNewChat(clientPacket.Value);
+                this.actionsHandler.createNewChat(clientPacket.Value);
                 break;
 
             case packetTypes.requestUsers:
-                this.actionsHandler.RequestUsers(socket);
+                this.actionsHandler.requestUsers(socket);
                 break;
         }
     }

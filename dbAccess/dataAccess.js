@@ -8,9 +8,9 @@ class DataAccess {
         this.userChatsDB = userChatsDB;
     }
 
-    async TryRegisterUser(username) {
+    async tryRegisterUser(username) {
         try {
-            return await this.userChatsDB.TryRegisterUser(username)
+            return await this.userChatsDB.tryRegisterUser(username)
         }
 
         catch(exception) {
@@ -19,9 +19,9 @@ class DataAccess {
         }
     }
 
-    async IsUserRegistered(username) { 
+    async isUserRegistered(username) { 
         try {
-            return await this.userChatsDB.IsUserRegistered(username);
+            return await this.userChatsDB.isUserRegistered(username);
         }
 
         catch(exception) {
@@ -30,13 +30,13 @@ class DataAccess {
         }
     }
 
-    async CreateNewChat(chatId, chatName, participants) {
+    async createNewChat(chatId, chatName, participants) {
         try {
-            await this.userChatsDB.AddChat(chatId, chatName);
-            await this.chatMessagesDB.AddChat(chatId, chatName);
+            await this.userChatsDB.addChat(chatId, chatName);
+            await this.chatMessagesDB.addChat(chatId, chatName);
     
             for (const participant of participants) {
-                await this.userChatsDB.AddUserToChat(participant, chatId);
+                await this.userChatsDB.addUserToChat(participant, chatId);
             }
         }
 
@@ -45,9 +45,9 @@ class DataAccess {
         }
     }
 
-    async AddMessageToChat(chatId, message) {
+    async addMessageToChat(chatId, message) {
         try {
-            await this.chatMessagesDB.AddMessageToChat(chatId, message);
+            await this.chatMessagesDB.addMessageToChat(chatId, message);
         }
 
         catch(exception) {
@@ -55,9 +55,9 @@ class DataAccess {
         }
     }
 
-    async GetAllUsers() {
+    async getAllUsers() {
         try {
-            return await this.userChatsDB.GetAllUsers();
+            return await this.userChatsDB.getAllUsers();
         }
 
         catch(exception) {
@@ -66,9 +66,9 @@ class DataAccess {
         }
     }
 
-    async GetUsersInChat(chatId) {
+    async getUsersInChat(chatId) {
         try {
-            return await this.userChatsDB.GetUsersInChat(chatId);
+            return await this.userChatsDB.getUsersInChat(chatId);
         }
 
         catch(exception) {
@@ -77,9 +77,9 @@ class DataAccess {
         }
     }
 
-    async GetUserChats(username) {
+    async getUserChats(username) {
         try {
-            return await this.userChatsDB.GetUserChats(username);
+            return await this.userChatsDB.getUserChats(username);
         }
 
         catch(exception) {
@@ -88,9 +88,9 @@ class DataAccess {
         }
     }
 
-    async GetMessagesInChat(chatId) {
+    async getMessagesInChat(chatId) {
         try {
-            return await this.chatMessagesDB.GetMessages(chatId);
+            return await this.chatMessagesDB.getMessages(chatId);
         }
 
         catch(exception) {

@@ -2,14 +2,14 @@ const SimpleNodeLogger = require('simple-node-logger');
 const logConfigs = require('config').get('logConfigs');
 const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.packetSenderLogFileName);
 
-const Packet = require("../Models/Packet");
+const Packet = require("../models/Packet");
 const configs = require('config').get('protocolConfigs');
 
 class PacketSender {
-    Send(packetType, packetContent, socket) {
+    send(packetType, packetContent, socket) {
         let packet = new Packet(packetType, packetContent);
         let serializedPacket = JSON.stringify(packet);
-        let lengthString = this.CreateLengthString(serializedPacket.length);
+        let lengthString = this.createLengthString(serializedPacket.length);
 
         try {
             socket.write(lengthString);
@@ -25,7 +25,7 @@ class PacketSender {
         }
     }
 
-    CreateLengthString(length) {
+    createLengthString(length) {
         return length.toString().padStart(configs.packetLengthSize, configs.packetLengthPadCharacter);
     }
 }

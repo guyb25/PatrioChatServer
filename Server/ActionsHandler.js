@@ -11,25 +11,25 @@ class ActionsHandler {
         this.packetSender = packetSender;
     }
 
-    async Register(info, socket) {
+    async register(info, socket) {
         let username = info.Username;
-        let successfulRegisterUser = await this.dataAccess.TryRegisterUser(username);
+        let successfulRegisterUser = await this.dataAccess.tryRegisterUser(username);
 
         if (successfulRegisterUser) {
-            await this.InitPrivateChats(username);
-            this.BroadcastNewUser(username);
+            await this.initPrivateChats(username);
+            this.broadcastNewUser(username);
             logger.info(username + ' has registered.');
         }
 
-        this.packetSender.Send(packetTypes.serverResponse, successfulRegisterUser, socket);
+        this.packetSender.send(packetTypes.serverResponse, successfulRegisterUser, socket);
     }
 
-    async Login(info, socket) {
+    async login(info, socket) {
         let username = info.Username;
         let successfulLogin = false;
 
         try {
-            successfulLogin = await this.dataAccess.IsUserRegistered(username) && this.onlineUsersPool.TryAddUser(username, socket);
+            successfulLogin = await this.dataAccess.isUserRegistered(username) && this.onlineUsersPool.tryAddUser(username, socket);
         }
 
         catch(exception) {
@@ -41,12 +41,12 @@ class ActionsHandler {
             logger.info(username + ' has logged in.');
         }
 
-        this.packetSender.Send(packetTypes.serverResponse, successfulLogin, socket);
+        this.packetSender.send(packetTypes.serverResponse, successfulLogin, socket);
     }
 
-    Logout(info) {
+    logout(info) {
         let username = info.Username;
-        let successfulLogout = this.onlineUsersPool.TryRemoveUser(username);
+        let successfulLogout = this.onlineUsersPool.tryRemoveUser(username);
 
         if (successfulLogout) {
             logger.info(username + ' has logged out.');
@@ -57,26 +57,26 @@ class ActionsHandler {
         }
     }
 
-    BroadcastNewUser(username) {
-        let onlineUsers = this.onlineUsersPool.GetOnlineUsersUsernames();
-        this.SendToOnlineUsers(packetTypes.newUser, {Username: username}, onlineUsers);
+    broadcastNewUser(username) {
+        let onlineUsers = this.onlineUsersPool.getOnlineUsersUsernames();
+        this.sendToOnlineUsers(packetTypes.newUser, {Username: username}, onlineUsers);
     }
 
-    async CreateNewChat(info) {
+    async createNewChat(info) {
         let chatName = info.ChatName;
         let participants = info.Participants.map(participant => participant.Username);
         let chatId = uuid.v4();
 
-        this.dataAccess.CreateNewChat(chatId, chatName, participants);
+        this.dataAccess.createNewChat(chatId, chatName, participants);
         logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
 
         let chat = { ChatId: chatId, ChatName: chatName, Messages: [] };
-        this.SendToOnlineUsers(packetTypes.newChat, chat, participants);
+        this.sendToOnlineUsers(packetTypes.newChat, chat, participants);
     }
 
-    async InitPrivateChats(newUser) {
+    async initPrivateChats(newUser) {
         try {
-            let users = await this.dataAccess.GetAllUsers();
+            let users = await this.dataAccess.getAllUsers();
             let newUserIndex = users.indexOf(newUser);
 
             if (newUserIndex !== -1)
@@ -85,7 +85,7 @@ class ActionsHandler {
             }
 
             for (const user of users) {
-                await this.CreateNewChat({ChatName: user + ' & ' + newUser, Participants: [{Username: newUser}, {Username: user}]});
+                await this.createNewChat({ChatName: user + ' & ' + newUser, Participants: [{Username: newUser}, {Username: user}]});
             }   
         }
         
@@ -94,30 +94,30 @@ class ActionsHandler {
         }
     }
 
-    async NewMessage(message) {
+    async newMessage(message) {
         let targetChatId = message.TargetRoomId;
 
         logger.info(message.Sender + ' has sent a new message to room ' + targetChatId + '.');
 
         // Add message to DB
-        await this.dataAccess.AddMessageToChat(targetChatId, message);
+        await this.dataAccess.addMessageToChat(targetChatId, message);
 
         // Send message to online users in the room
-        let usersInRoom = await this.dataAccess.GetUsersInChat(targetChatId);
-        this.SendToOnlineUsers(packetTypes.newMessage, message, usersInRoom); 
+        let usersInRoom = await this.dataAccess.getUsersInChat(targetChatId);
+        this.sendToOnlineUsers(packetTypes.newMessage, message, usersInRoom); 
     }
 
-    async RequestChats(info, socket) {
+    async requestChats(info, socket) {
         try {
             let username = info.Username;
-            let chats = await this.dataAccess.GetUserChats(username);
+            let chats = await this.dataAccess.getUserChats(username);
     
             logger.info(username + ' has requested his chat history.');
     
             for (const chat of chats) {
-                let chatMessages = await this.dataAccess.GetMessagesInChat(chat.ChatId);
+                let chatMessages = await this.dataAccess.getMessagesInChat(chat.ChatId);
                 chat.Messages = chatMessages;
-                this.packetSender.Send(packetTypes.newChat, chat, socket);
+                this.packetSender.send(packetTypes.newChat, chat, socket);
             }
         }
 
@@ -126,11 +126,11 @@ class ActionsHandler {
         }
     }
 
-    async RequestUsers(socket) {
+    async requestUsers(socket) {
         let users = [];
 
         try {
-            users = await this.dataAccess.GetAllUsers();   
+            users = await this.dataAccess.getAllUsers();   
         }
 
         catch (exception) {
@@ -138,16 +138,16 @@ class ActionsHandler {
         }
 
         users.forEach((user) => {
-            this.packetSender.Send(packetTypes.newUser, {Username: user}, socket);
+            this.packetSender.send(packetTypes.newUser, {Username: user}, socket);
         });
     }
 
-    SendToOnlineUsers(packetType, packetContent, users) {
-        let onlineUsers = users.filter(user => this.onlineUsersPool.IsUserOnline(user));
+    sendToOnlineUsers(packetType, packetContent, users) {
+        let onlineUsers = users.filter(user => this.onlineUsersPool.isUserOnline(user));
 
         onlineUsers.forEach(user => {
-            let socket = this.onlineUsersPool.GetUserSocket(user);
-            this.packetSender.Send(packetType, packetContent, socket);
+            let socket = this.onlineUsersPool.getUserSocket(user);
+            this.packetSender.send(packetType, packetContent, socket);
         });
     }
 }
