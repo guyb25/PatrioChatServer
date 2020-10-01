@@ -1,17 +1,16 @@
 const net = require('net');
+const configs = require('config').get('serverConfigs');
 
 class Server {
-    constructor(host, port, requestsRouter, logger) {
-        this.host = host;
-        this.port = port;
+    constructor(requestsRouter, logger) {        
         this.requestsRouter = requestsRouter;
         this.logger = logger;
         this.server = net.createServer();
     }
 
     listen() {
-        this.server.listen(this.port, this.host, () => {
-            this.logger.info('PatrioChat Server is running on port ' + this.port + '.');
+        this.server.listen(configs.port, configs.host, () => {
+            this.logger.info('PatrioChat Server is running on port ' + configs.port + '.');
         });        
     }
 

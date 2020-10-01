@@ -78,3 +78,19 @@
 17:08:29.296 INFO  Chat Ms. Piggy & God has been created with id ad4cc89a-d24e-4d3d-a550-d46094aa2955 
 17:08:29.298 INFO  Chat Seal & God has been created with id c607533d-9f62-4e3c-ae46-8199f0d87a6b 
 17:08:29.299 INFO  God has registered. 
+13:03:46.397 INFO  Guy has logged in. 
+13:03:47.100 INFO  Guy has requested his chat history. 
+13:04:19.078 INFO  Guy has logged out. 
+13:04:25.959 INFO  Guy has logged in. 
+13:04:26.117 INFO  Guy has requested his chat history. 
+13:04:31.163 INFO  Guy has logged out. 
+13:04:55.403 INFO  Guy has logged in. 
+13:05:06.295 INFO  Guy has requested his chat history. 
+13:07:31.893 INFO  Guy has logged out. 
+13:22:32.595 INFO  Guy has logged in. 
+13:22:59.066 INFO  Guy has requested his chat history. 
+13:24:23.717 INFO  Guy has logged in. 
+13:24:27.254 INFO  Guy has requested his chat history. 
+13:25:44.418 INFO  Guy has logged in. 
+13:25:46.919 INFO  Guy has requested his chat history. 
+13:25:53.582 INFO  Guy has logged out. 

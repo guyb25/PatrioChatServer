@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/guyb25/PatrioChatServer#readme",
   "dependencies": {
+    "config": "^3.3.2",
     "mongodb": "^3.6.2",
     "neo4j-driver": "^4.1.2",
     "simple-node-logger": "^18.12.24",

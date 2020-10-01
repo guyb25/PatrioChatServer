@@ -1,4 +1,4 @@
-const packetTypes = require('./static/PacketTypes');
+const packetTypes = require('config').get('protocolConfigs').get('packetTypes');
 const uuid = require('uuid');
 
 class ActionsHandler {
@@ -19,7 +19,7 @@ class ActionsHandler {
             this.logger.info(username + ' has registered.');
         }
 
-        this.packetSender.Send(packetTypes.ServerResponse, successfulRegisterUser, socket);
+        this.packetSender.Send(packetTypes.serverResponse, successfulRegisterUser, socket);
     }
 
     async Login(info, socket) {
@@ -31,7 +31,7 @@ class ActionsHandler {
         }
 
         catch(exception) {
-            this.logger.warn(successfulLogin);
+            this.logger.warn(exception);
             successfulLogin = false;
         }
 
@@ -39,7 +39,7 @@ class ActionsHandler {
             this.logger.info(username + ' has logged in.');
         }
 
-        this.packetSender.Send(packetTypes.ServerResponse, successfulLogin, socket);
+        this.packetSender.Send(packetTypes.serverResponse, successfulLogin, socket);
     }
 
     Logout(info) {
@@ -57,7 +57,7 @@ class ActionsHandler {
 
     BroadcastNewUser(username) {
         let onlineUsers = this.onlineUsersPool.GetOnlineUsersUsernames();
-        this.SendToOnlineUsers(packetTypes.NewUser, {Username: username}, onlineUsers);
+        this.SendToOnlineUsers(packetTypes.newUser, {Username: username}, onlineUsers);
     }
 
     async CreateNewChat(info) {
@@ -69,7 +69,7 @@ class ActionsHandler {
         this.logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
 
         let chat = { ChatId: chatId, ChatName: chatName, Messages: [] };
-        this.SendToOnlineUsers(packetTypes.NewChat, chat, participants);
+        this.SendToOnlineUsers(packetTypes.newChat, chat, participants);
     }
 
     async InitPrivateChats(newUser) {
@@ -102,7 +102,7 @@ class ActionsHandler {
 
         // Send message to online users in the room
         let usersInRoom = await this.dataAccess.GetUsersInChat(targetChatId);
-        this.SendToOnlineUsers(packetTypes.NewMessage, message, usersInRoom); 
+        this.SendToOnlineUsers(packetTypes.newMessage, message, usersInRoom); 
     }
 
     async RequestChats(info, socket) {
@@ -115,7 +115,7 @@ class ActionsHandler {
             for (const chat of chats) {
                 let chatMessages = await this.dataAccess.GetMessagesInChat(chat.ChatId);
                 chat.Messages = chatMessages;
-                this.packetSender.Send(packetTypes.NewChat, chat, socket);
+                this.packetSender.Send(packetTypes.newChat, chat, socket);
             }
         }
 
@@ -136,7 +136,7 @@ class ActionsHandler {
         }
 
         users.forEach((user) => {
-            this.packetSender.Send(packetTypes.NewUser, {Username: user}, socket);
+            this.packetSender.Send(packetTypes.newUser, {Username: user}, socket);
         });
     }
 

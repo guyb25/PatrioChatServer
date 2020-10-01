@@ -1,9 +1,8 @@
 const Packet = require("../Models/Packet");
+const configs = require('config').get('protocolConfigs');
 
 class PacketSender {
-    constructor(packetLengthSize, packetLengthPadCharacter, logger) {
-        this.packetLengthSize = packetLengthSize;
-        this.packetLengthPadCharacter = packetLengthPadCharacter;
+    constructor(logger) {
         this.logger = logger;
     }
 
@@ -27,7 +26,7 @@ class PacketSender {
     }
 
     CreateLengthString(length) {
-        return length.toString().padStart(this.packetLengthSize, this.packetLengthPadCharacter);
+        return length.toString().padStart(configs.packetLengthSize, configs.packetLengthPadCharacter);
     }
 }
 

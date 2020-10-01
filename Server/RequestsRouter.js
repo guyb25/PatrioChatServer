@@ -1,4 +1,4 @@
-const packetTypes = require('./static/PacketTypes');
+const packetTypes = require('config').get('protocolConfigs').get('packetTypes');
 
 class RequestsRouter {
     constructor(actionsHandler) {
@@ -9,31 +9,31 @@ class RequestsRouter {
         let clientPacket = JSON.parse(data);
 
         switch(clientPacket.Type) {
-            case packetTypes.Register:
+            case packetTypes.register:
                 this.actionsHandler.Register(clientPacket.Value, socket);
                 break;
 
-            case packetTypes.Login:
+            case packetTypes.login:
                 this.actionsHandler.Login(clientPacket.Value, socket);
                 break;
 
-            case packetTypes.RequestChats:
+            case packetTypes.requestChats:
                 this.actionsHandler.RequestChats(clientPacket.Value, socket);
                 break;
 
-            case packetTypes.Logout:
+            case packetTypes.logout:
                 this.actionsHandler.Logout(clientPacket.Value);
                 break;
 
-            case packetTypes.NewMessage:
+            case packetTypes.newMessage:
                 this.actionsHandler.NewMessage(clientPacket.Value);
                 break;
 
-            case packetTypes.NewChat:
+            case packetTypes.newChat:
                 this.actionsHandler.CreateNewChat(clientPacket.Value);
                 break;
 
-            case packetTypes.RequestUsers:
+            case packetTypes.requestUsers:
                 this.actionsHandler.RequestUsers(socket);
                 break;
         }

@@ -1,0 +1,42 @@
+{
+    "serverConfigs": {
+        "port": 3000,
+        "host": "127.0.0.1"
+    },
+
+    "logConfigs": {
+        "actionslogFileName": "actionsLog.txt",
+        "dbLogFileName": "dbLog.txt",
+        "packetSenderLogFileName": "packetSenderLog.txt"
+    },
+
+    "protocolConfigs": {
+        "packetLengthSize": 5,
+        "packetLengthPadCharacter": "0",
+        "packetTypes": {
+            "serverResponse": 0,
+            "register": 1,
+            "login": 2,
+            "logout": 3,
+            "newMessage": 4,
+            "newChat": 5,
+            "requestChats": 6,
+            "newUser": 7,
+            "requestUsers": 8
+        }
+    },
+
+    "databaseConfigs": {
+        "chatsMessagesDbConfigs": {
+            "url": "mongodb://localhost:27017/",
+            "dbName": "PatrioChatMongoDB",
+            "collectionName": "ChatsMessages"
+        },
+
+        "userChatsDbConfigs": {
+            "url": "bolt://localhost:7687",
+            "user": "neo4j",
+            "password": "Password1"
+        }
+    }
+}

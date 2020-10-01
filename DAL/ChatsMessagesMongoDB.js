@@ -1,11 +1,11 @@
 let MongoClient = require('mongodb').MongoClient;
-const constants = require('./static/ChatsMessagesMongoDBConstants');
+const configs = require('config').get('databaseConfigs').get('chatsMessagesDbConfigs');
 
 class ChatsMessagesMongoDB {
     constructor() {
-        MongoClient.connect(constants.url, (err, db) => {
-            this.db = db.db(constants.dbName);
-            this.collection = this.db.collection(constants.collectionName);
+        MongoClient.connect(configs.url, (err, db) => {
+            this.db = db.db(configs.dbName);
+            this.collection = this.db.collection(configs.collectionName);
         });
     }
 

@@ -1,6 +1,6 @@
 const neo4j = require('neo4j-driver');
-const dbConstants = require('./static/UserChatsGraphDBConstants');
-const driver = neo4j.driver(dbConstants.url, neo4j.auth.basic(dbConstants.user, dbConstants.password));
+const configs = require('config').get('databaseConfigs').get('userChatsDbConfigs');
+const driver = neo4j.driver(configs.url, neo4j.auth.basic(configs.user, configs.password));
 
 class UserChatsGraphDB {
     Shutdown() {
