@@ -1,11 +1,11 @@
+const SimpleNodeLogger = require('simple-node-logger');
+const logConfigs = require('config').get('logConfigs');
+const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.packetSenderLogFileName);
+
 const Packet = require("../Models/Packet");
 const configs = require('config').get('protocolConfigs');
 
 class PacketSender {
-    constructor(logger) {
-        this.logger = logger;
-    }
-
     Send(packetType, packetContent, socket) {
         let packet = new Packet(packetType, packetContent);
         let serializedPacket = JSON.stringify(packet);
@@ -17,7 +17,7 @@ class PacketSender {
         }
 
         catch(exception) {
-            this.logger.error('Exception thrown when trying to send a packet to ' + user + '. \n' + 
+            logger.error('Exception thrown when trying to send a packet to ' + user + '. \n' + 
                 'Packet: \n' +
                 JSON.stringify(packet) + '\n' +
                 'Exception: \n' + 

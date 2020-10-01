@@ -1,8 +1,11 @@
+const SimpleNodeLogger = require('simple-node-logger');
+const logConfigs = require('config').get('logConfigs');
+const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.dbLogFileName);
+
 class DataAccess {
-    constructor(chatMessagesDB, userChatsDB, logger) {
+    constructor(chatMessagesDB, userChatsDB) {
         this.chatMessagesDB = chatMessagesDB;
         this.userChatsDB = userChatsDB;
-        this.logger = logger;
     }
 
     async TryRegisterUser(username) {
@@ -11,7 +14,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             return false;
         }
     }
@@ -22,7 +25,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             throw 'Database failed to check if user is registered. Username: ' + username + '.';
         }
     }
@@ -38,7 +41,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
         }
     }
 
@@ -48,7 +51,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
         }
     }
 
@@ -58,7 +61,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             throw 'Database failed to fetch the users.';
         }
     }
@@ -69,7 +72,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             throw 'Database failed to fetch the users in the chat! chatId: ' + chatId + '.';
         }
     }
@@ -80,7 +83,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             throw 'Database failed to fetch the chats of the user. Username: ' + username + '.';
         }
     }
@@ -91,7 +94,7 @@ class DataAccess {
         }
 
         catch(exception) {
-            this.logger.error(exception);
+            logger.error(exception);
             throw 'Database failed to fetch the messages in the chat. chatId: ' + chatId + '.';
         }
     }

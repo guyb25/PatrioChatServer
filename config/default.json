@@ -5,7 +5,7 @@
     },
 
     "logConfigs": {
-        "actionslogFileName": "actionsLog.txt",
+        "actionsLogFileName": "actionsLog.txt",
         "dbLogFileName": "dbLog.txt",
         "packetSenderLogFileName": "packetSenderLog.txt"
     },

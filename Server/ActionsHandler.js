@@ -1,12 +1,14 @@
+const SimpleNodeLogger = require('simple-node-logger');
+const logConfigs = require('config').get('logConfigs');
+const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.actionsLogFileName);
 const packetTypes = require('config').get('protocolConfigs').get('packetTypes');
 const uuid = require('uuid');
 
 class ActionsHandler {
-    constructor(dataAccess, onlineUsersPool, packetSender, logger) {
+    constructor(dataAccess, onlineUsersPool, packetSender) {
         this.dataAccess = dataAccess;
         this.onlineUsersPool = onlineUsersPool;
         this.packetSender = packetSender;
-        this.logger = logger;
     }
 
     async Register(info, socket) {
@@ -16,7 +18,7 @@ class ActionsHandler {
         if (successfulRegisterUser) {
             await this.InitPrivateChats(username);
             this.BroadcastNewUser(username);
-            this.logger.info(username + ' has registered.');
+            logger.info(username + ' has registered.');
         }
 
         this.packetSender.Send(packetTypes.serverResponse, successfulRegisterUser, socket);
@@ -31,12 +33,12 @@ class ActionsHandler {
         }
 
         catch(exception) {
-            this.logger.warn(exception);
+            logger.warn(exception);
             successfulLogin = false;
         }
 
         if (successfulLogin) {
-            this.logger.info(username + ' has logged in.');
+            logger.info(username + ' has logged in.');
         }
 
         this.packetSender.Send(packetTypes.serverResponse, successfulLogin, socket);
@@ -47,11 +49,11 @@ class ActionsHandler {
         let successfulLogout = this.onlineUsersPool.TryRemoveUser(username);
 
         if (successfulLogout) {
-            this.logger.info(username + ' has logged out.');
+            logger.info(username + ' has logged out.');
         }
 
         else {
-            this.logger.warn(username + ' has tried to log out, but the system failed to do so.');
+            logger.warn(username + ' has tried to log out, but the system failed to do so.');
         }
     }
 
@@ -66,7 +68,7 @@ class ActionsHandler {
         let chatId = uuid.v4();
 
         this.dataAccess.CreateNewChat(chatId, chatName, participants);
-        this.logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
+        logger.info('Chat ' + chatName + ' has been created with id ' + chatId);
 
         let chat = { ChatId: chatId, ChatName: chatName, Messages: [] };
         this.SendToOnlineUsers(packetTypes.newChat, chat, participants);
@@ -88,14 +90,14 @@ class ActionsHandler {
         }
         
         catch(exception) {
-            this.logger.warn(exception);
+            logger.warn(exception);
         }
     }
 
     async NewMessage(message) {
         let targetChatId = message.TargetRoomId;
 
-        this.logger.info(message.Sender + ' has sent a new message to room ' + targetChatId + '.');
+        logger.info(message.Sender + ' has sent a new message to room ' + targetChatId + '.');
 
         // Add message to DB
         await this.dataAccess.AddMessageToChat(targetChatId, message);
@@ -110,7 +112,7 @@ class ActionsHandler {
             let username = info.Username;
             let chats = await this.dataAccess.GetUserChats(username);
     
-            this.logger.info(username + ' has requested his chat history.');
+            logger.info(username + ' has requested his chat history.');
     
             for (const chat of chats) {
                 let chatMessages = await this.dataAccess.GetMessagesInChat(chat.ChatId);
@@ -120,7 +122,7 @@ class ActionsHandler {
         }
 
         catch(exception) {
-            this.logger.warn(exception);
+            logger.warn(exception);
         }
     }
 
@@ -132,7 +134,7 @@ class ActionsHandler {
         }
 
         catch (exception) {
-            this.logger.warn(exception);
+            logger.warn(exception);
         }
 
         users.forEach((user) => {
