@@ -1,6 +1,6 @@
 const SimpleNodeLogger = require('simple-node-logger');
 const logConfigs = require('config').get('logConfigs');
-const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.actionsLogFileName);
+const logger = SimpleNodeLogger.createSimpleFileLogger(logConfigs.actionsLogFileName);
 const packetTypes = require('config').get('protocolConfigs').get('packetTypes');
 const uuid = require('uuid');
 

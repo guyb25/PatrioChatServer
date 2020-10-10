@@ -1,0 +1,69 @@
+17:03:39.709 FATAL test1 
+17:03:39.722 FATAL test4 
+17:05:14.087 FATAL test1 
+17:05:14.099 FATAL test4 
+17:07:15.335 FATAL test1 
+17:07:15.347 FATAL test4 
+17:19:57.921 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:22:22.893 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:24:34.319 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:24:58.178 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:26:03.501 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:27:28.714 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 
+17:33:24.906 FATAL Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+{"code":"ServiceUnavailable","name":"Neo4jError"}
+Neo4jError: Failed to connect to server. Please ensure that your database is listening on the correct host and port and that you have compatible encryption settings both on Neo4j server and driver. Note that the default encryption setting has changed in Neo4j 4.0. Caused by: connect ECONNREFUSED 127.0.0.1:7687
+    at newError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\error.js:75:10)
+    at NodeChannel._handleConnectionError (c:\Users\guybe\OneDrive\מסמכים\stuff\PatrioChatServer\node_modules\neo4j-driver\lib\internal\node\node-channel.js:229:41)
+    at Socket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:92:8)
+    at emitErrorAndCloseNT (internal/streams/destroy.js:60:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) 

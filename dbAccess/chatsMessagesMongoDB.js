@@ -2,11 +2,22 @@ let MongoClient = require('mongodb').MongoClient;
 const configs = require('config').get('databaseConfigs').get('chatsMessagesDbConfigs');
 
 class ChatsMessagesMongoDB {
-    constructor() {
-        MongoClient.connect(configs.url, (err, db) => {
-            this.db = db.db(configs.dbName);
+    connect() {
+        let error;
+
+        MongoClient.connect(configs.url, (err, connection) => {
+            if (err) throw err;
+            
+            this.connection = connection;
+            this.db = connection.db(configs.dbName);
             this.collection = this.db.collection(configs.collectionName);
         });
+
+        return error;
+    }
+
+    shutdown() {
+        this.connection.close();
     }
 
     async addChat(chatId, chatName) {

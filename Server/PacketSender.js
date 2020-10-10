@@ -1,6 +1,6 @@
 const SimpleNodeLogger = require('simple-node-logger');
 const logConfigs = require('config').get('logConfigs');
-const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.packetSenderLogFileName);
+const logger = SimpleNodeLogger.createSimpleFileLogger(logConfigs.packetSenderLogFileName);
 
 const Packet = require("../models/Packet");
 const configs = require('config').get('protocolConfigs');

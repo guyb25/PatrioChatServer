@@ -1,7 +1,8 @@
+const SimpleNodeLogger = require('simple-node-logger');
 const net = require('net');
 const configs = require('config').get('serverConfigs');
-const SimpleNodeLogger = require('simple-node-logger');
-const logger = SimpleNodeLogger.createSimpleLogger();
+const logConfigs = require('config').get('logConfigs');
+const logger = SimpleNodeLogger.createSimpleFileLogger(logConfigs.serverLogFileName);
 
 class Server {
     constructor(requestsRouter) {        
@@ -33,6 +34,10 @@ class Server {
                 logger.error(error);
             });
         });
+    }
+
+    shutdown() {
+        this.server.close();
     }
 }
 

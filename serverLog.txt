@@ -1,0 +1,9 @@
+17:34:00.419 INFO  PatrioChat Server is running on port 3000. 
+17:34:56.263 INFO  PatrioChat Server is running on port 3000. 
+17:35:05.085 INFO  PatrioChat Server is running on port 3000. 
+17:35:22.974 INFO  PatrioChat Server is running on port 3000. 
+17:35:52.612 INFO  PatrioChat Server is running on port 3000. 
+17:36:18.723 INFO  PatrioChat Server is running on port 3000. 
+17:36:28.551 INFO  PatrioChat Server is running on port 3000. 
+17:36:58.642 INFO  PatrioChat Server is running on port 3000. 
+17:37:52.594 INFO  PatrioChat Server is running on port 3000. 

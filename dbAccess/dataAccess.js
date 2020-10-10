@@ -1,11 +1,36 @@
 const SimpleNodeLogger = require('simple-node-logger');
 const logConfigs = require('config').get('logConfigs');
-const logger = SimpleNodeLogger.createSimpleLogger(logConfigs.dbLogFileName);
+let logger = SimpleNodeLogger.createSimpleFileLogger(logConfigs.dbLogFileName);
 
 class DataAccess {
     constructor(chatMessagesDB, userChatsDB) {
         this.chatMessagesDB = chatMessagesDB;
         this.userChatsDB = userChatsDB;
+    }
+
+    async connect() {
+        try {
+            this.chatMessagesDB.connect();
+        }
+
+        catch(exception) {
+            logger.fatal(exception);
+            throw 'unable to connect to chat-messages db.';
+        }
+
+        try {
+            await this.userChatsDB.connect();
+        }
+
+        catch(exception) {
+            logger.fatal(exception);
+            throw 'unable to connect to user-chats db.';
+        }
+    }
+
+    shutdown() {
+        this.chatMessagesDB.shutdown();
+        this.userChatsDB.shutdown();
     }
 
     async tryRegisterUser(username) {
